@@ -23,6 +23,17 @@ module top_module (
     input clk,
     input reset,
     input power_button,
+    input menu,
+    input state_01,
+    input state_02,
+    input state_03,
+    input state_clean,
+    output display_menu,
+    output display_01,
+    output display_02,
+    output display_03,
+    output display_clean,
+    output cleaned,
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [5:0] an
@@ -69,6 +80,23 @@ module top_module (
         .an(an)
     );
     
+    state_machine state_dut(
+        .clk(clk_out),
+        .reset(reset),
+        .power(power_on),
+        .state_01(state_01),
+        .state_02(state_02),
+        .state_03(state_03),
+        .state_clean(state_clean),
+        .menu(menu),
+        .display_menu(display_menu),
+        .display_01(display_01),
+        .display_02(display_02),
+        .display_03(display_03),
+        .display_clean(display_clean),
+        .cleaned(cleaned)
+    );
+    
     always @(posedge clk) begin
         power_button_sync <= power_button;      // 捕获按钮状态
         power_button_stable <= power_button_sync;  // 稳定的按钮信号
@@ -80,7 +108,7 @@ module top_module (
             power_timer <= 32'd0;
         end else if (power_button_stable) begin  // 只有按钮稳定时才处理
             if (power_on == 1'b0) begin
-                if (power_timer < 32'd100000000) begin // 等待 1 秒 (假设时钟频率较高)
+                if (power_timer < 32'd100000000) begin // 等待 1 秒 
                     power_timer <= power_timer + 1;
                 end else begin
                     power_on <= 1'b1; // 持续 1 秒后开机
