@@ -1,0 +1,429 @@
+
+*** Running vivado
+    with args -log top_module.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_module.tcl
+
+
+****** Vivado v2017.4 (64-bit)
+  **** SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017
+  **** IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source top_module.tcl -notrace
+Command: synth_design -top top_module -part xc7a35tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 29632 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 330.312 ; gain = 100.320
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'top_module' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:22]
+INFO: [Synth 8-638] synthesizing module 'clock_divider' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider.v:23]
+	Parameter period bound to: 10000000 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'clock_divider' (1#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider.v:23]
+INFO: [Synth 8-638] synthesizing module 'clock_divider_enable' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider_enable.v:23]
+	Parameter period bound to: 65536 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'clock_divider_enable' (2#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider_enable.v:23]
+INFO: [Synth 8-638] synthesizing module 'timer' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v:23]
+INFO: [Synth 8-256] done synthesizing module 'timer' (3#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v:23]
+INFO: [Synth 8-638] synthesizing module 'seven_segment_display' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:1]
+WARNING: [Synth 8-3848] Net an in module/entity seven_segment_display does not have driver. [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:6]
+INFO: [Synth 8-256] done synthesizing module 'seven_segment_display' (4#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:1]
+INFO: [Synth 8-256] done synthesizing module 'top_module' (5#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:22]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[5]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[4]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[3]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[2]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[1]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[0]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 382.652 ; gain = 152.660
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:01 ; elapsed = 00:00:04 . Memory (MB): peak = 382.652 ; gain = 152.660
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7a35tcsg324-1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc]
+WARNING: [Vivado 12-584] No ports matched 'an[7]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:1]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:1]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[6]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:2]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:2]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[6]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:15]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:15]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'an[7]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:16]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:16]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[7]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:17]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:17]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[6]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:18]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:18]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[5]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:19]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:19]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[4]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:20]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:20]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[3]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:21]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:21]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[2]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:22]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:22]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[1]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:23]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:23]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[0]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:24]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:24]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[0]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:25]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:25]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[1]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:26]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:26]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[2]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:27]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:27]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[3]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:28]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:28]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[4]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:29]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:29]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[5]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:30]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:30]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[6]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:31]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:31]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'seg[7]'. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:32]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc:32]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+Finished Parsing XDC File [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_module_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/top_module_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 709.320 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:03 ; elapsed = 00:00:10 . Memory (MB): peak = 709.320 ; gain = 479.328
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:03 ; elapsed = 00:00:10 . Memory (MB): peak = 709.320 ; gain = 479.328
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:03 ; elapsed = 00:00:10 . Memory (MB): peak = 709.320 ; gain = 479.328
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5545] ROM "clk_out" won't be mapped to RAM because address size (28) is larger than maximum supported(25)
+INFO: [Synth 8-5546] ROM "clk_out" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "min" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "hour" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5544] ROM "seg1" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "seg2" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "seg_map" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "seg_map" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+WARNING: [Synth 8-327] inferring latch for variable 'seg1_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:25]
+WARNING: [Synth 8-327] inferring latch for variable 'seg2_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:29]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:11 . Memory (MB): peak = 709.320 ; gain = 479.328
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     28 Bit       Adders := 1     
+	   2 Input     25 Bit       Adders := 1     
+	   2 Input      6 Bit       Adders := 3     
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	               28 Bit    Registers := 1     
+	               25 Bit    Registers := 1     
+	                6 Bit    Registers := 3     
+	                4 Bit    Registers := 1     
+	                1 Bit    Registers := 2     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+	   7 Input     32 Bit        Muxes := 1     
+	   2 Input     28 Bit        Muxes := 1     
+	   2 Input     25 Bit        Muxes := 1     
+	  11 Input      8 Bit        Muxes := 2     
+	   2 Input      8 Bit        Muxes := 2     
+	   7 Input      8 Bit        Muxes := 2     
+	   2 Input      6 Bit        Muxes := 4     
+	   7 Input      6 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 7     
+	   7 Input      1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module top_module 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	                4 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      6 Bit        Muxes := 1     
+	   7 Input      6 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+Module clock_divider 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     28 Bit       Adders := 1     
++---Registers : 
+	               28 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     28 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 1     
+Module clock_divider_enable 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     25 Bit       Adders := 1     
++---Registers : 
+	               25 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     25 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 1     
+Module timer 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      6 Bit       Adders := 3     
++---Registers : 
+	                6 Bit    Registers := 3     
++---Muxes : 
+	   2 Input      6 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 3     
+Module seven_segment_display 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+	   7 Input     32 Bit        Muxes := 1     
+	  11 Input      8 Bit        Muxes := 2     
+	   2 Input      8 Bit        Muxes := 2     
+	   7 Input      8 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 2     
+	   7 Input      1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5545] ROM "clk_div_inst/clk_out" won't be mapped to RAM because address size (28) is larger than maximum supported(25)
+INFO: [Synth 8-5546] ROM "clk_en_inst/clk_out" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\display_inst/seg2_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\display_inst/seg1_reg[0] )
+WARNING: [Synth 8-3332] Sequential element (display_inst/seg1_reg[0]) is unused and will be removed from module top_module.
+WARNING: [Synth 8-3332] Sequential element (display_inst/seg2_reg[0]) is unused and will be removed from module top_module.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:03 ; elapsed = 00:00:12 . Memory (MB): peak = 709.320 ; gain = 479.328
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 710.023 ; gain = 480.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 710.246 ; gain = 480.254
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    13|
+|3     |LUT1   |     7|
+|4     |LUT2   |    30|
+|5     |LUT3   |     3|
+|6     |LUT4   |    46|
+|7     |LUT5   |    10|
+|8     |LUT6   |    37|
+|9     |MUXF7  |     2|
+|10    |FDCE   |    77|
+|11    |LD     |    14|
+|12    |IBUF   |     2|
+|13    |OBUF   |    22|
++------+-------+------+
+
+Report Instance Areas: 
++------+---------------+----------------------+------+
+|      |Instance       |Module                |Cells |
++------+---------------+----------------------+------+
+|1     |top            |                      |   264|
+|2     |  clk_div_inst |clock_divider         |    73|
+|3     |  clk_en_inst  |clock_divider_enable  |    65|
+|4     |  display_inst |seven_segment_display |    16|
+|5     |  timer_inst   |timer                 |    71|
++------+---------------+----------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 734.309 ; gain = 177.648
+Synthesis Optimization Complete : Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 734.309 ; gain = 504.316
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 31 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 14 instances were transformed.
+  LD => LDCE: 14 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+34 Infos, 31 Warnings, 20 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:04 ; elapsed = 00:00:21 . Memory (MB): peak = 734.309 ; gain = 508.387
+INFO: [Common 17-1381] The checkpoint 'D:/Verilog/DigitalProject/DigitalProject.runs/synth_1/top_module.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file top_module_utilization_synth.rpt -pb top_module_utilization_synth.pb
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.011 . Memory (MB): peak = 734.309 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Sat Nov 30 14:40:54 2024...
