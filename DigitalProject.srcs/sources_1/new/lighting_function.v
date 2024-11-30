@@ -21,16 +21,16 @@
 
 
 module lighting_function(
-input power,
-input light_in,
-output reg light_out
+    input power,
+    input light_in,
+    output reg light_out
     );
-parameter on=1'b1, off=1'b0;
+    parameter on=1'b1, off=1'b0;
 
     always@*
         if(power==on & light_in==on)
             light_out=on;
         else
-            ligh_out=off;
+            light_out=off;
             
 endmodule

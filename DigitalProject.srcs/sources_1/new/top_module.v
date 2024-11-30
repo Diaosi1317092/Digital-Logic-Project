@@ -22,6 +22,7 @@
 module top_module (
     input clk,
     input reset,
+    input power_button,
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [5:0] an
@@ -34,6 +35,9 @@ module top_module (
     wire [5:0] hour;
     reg [3:0] select;
     reg [1:0] cycle_count;
+    reg power_on;          // 记录开机状态
+    reg [31:0] power_timer;// 开关机计时器
+    reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
 
     clock_divider clk_div_inst (
         .clk(clk),
@@ -49,7 +53,7 @@ module top_module (
 
     timer timer_inst (
         .clk(clk_out),
-        .reset(reset),
+        .reset(reset & power_on),
         .sec(sec),
         .min(min),
         .hour(hour)
@@ -64,7 +68,37 @@ module top_module (
         .seg2(seg2),
         .an(an)
     );
-
+    
+    always @(posedge clk) begin
+        power_button_sync <= power_button;      // 捕获按钮状态
+        power_button_stable <= power_button_sync;  // 稳定的按钮信号
+    end
+    
+   always @(posedge clk or posedge reset) begin
+        if (~reset) begin
+            power_on <= 1'b0;
+            power_timer <= 32'd0;
+        end else if (power_button_stable) begin  // 只有按钮稳定时才处理
+            if (power_on == 1'b0) begin
+                if (power_timer < 32'd100000000) begin // 等待 1 秒 (假设时钟频率较高)
+                    power_timer <= power_timer + 1;
+                end else begin
+                    power_on <= 1'b1; // 持续 1 秒后开机
+                    power_timer <= 32'd0; // 重置计时器
+                end
+            end else begin
+                if (power_timer < 32'd300000000) begin // 等待 3 秒
+                    power_timer <= power_timer + 1;
+                end else begin
+                    power_on <= 1'b0; // 持续 3 秒后关机
+                    power_timer <= 32'd0; // 重置计时器
+                end
+            end
+        end else begin
+            power_timer <= 32'd0;  // 没有按下时，计时器清零
+        end
+    end
+    
     always @(posedge clk_out_en or posedge reset) begin
         if (~reset) begin
             select <= 4'd0;
@@ -78,13 +112,13 @@ module top_module (
         end
     end
 
-    assign an = (select == 4'd0) ? 6'b100000 :
+    assign an = (~reset || ~power_on) ? 6'b000000 : 
+                (select == 4'd0) ? 6'b100000 :
                 (select == 4'd1) ? 6'b010000 :
                 (select == 4'd2) ? 6'b001000 :
                 (select == 4'd3) ? 6'b000100 : 
                 (select == 4'd4) ? 6'b000010 : 
                 (select == 4'd5) ? 6'b000001 : 6'b111111;
-
 endmodule
 
 

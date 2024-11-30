@@ -9,3 +9,7 @@
 #### Update 2024-11-30 version 1
 
 将 ```master``` 合并到 ```main``` 
+
+#### Update 2024-11-30 version 2
+
+实现了开机功能

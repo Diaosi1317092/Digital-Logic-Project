@@ -25,7 +25,7 @@ module clock_divider (
     input reset,
     output reg clk_out
 );
-    parameter period = 10000000;
+    parameter period = 100000000;
     
     reg [27:0] count;
     
