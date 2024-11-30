@@ -6,6 +6,6 @@
 
 实现了时钟分频和时间显示
 
-#### Update 2-24-11-30 version 1
+#### Update 2024-11-30 version 1
 
 将 ```master``` 合并到 ```main``` 
