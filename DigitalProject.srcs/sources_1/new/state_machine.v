@@ -47,6 +47,7 @@ module state_machine(
     reg [3:0] time_count_clean;
     reg [4:0] display;
     reg in_menu_mode; // 用来标记是否在菜单模式
+    reg entered_S3;  // 新增信号，标记是否已经进入过S3状态
 
     // 按钮去抖动处理
     reg state_01_stable, state_02_stable, state_03_stable, state_clean_stable;
@@ -125,6 +126,7 @@ module state_machine(
             display <= 5'b00001;
             cleaned <= off;
             in_menu_mode <= 0; // 初始化为不在菜单模式
+            entered_S3 <= 0;  // 初始化 entered_S3 为 0
         end else if (power) begin
             case (State)
                 S0: begin // 待机状态
@@ -141,10 +143,11 @@ module state_machine(
                         end else if (state_02_stable) begin
                             State <= S2;
                             in_menu_mode <= 0;
-                        end else if (state_03_stable) begin
+                        end else if (state_03_stable && !entered_S3) begin
                             State <= S3;
                             time_count_menu <= 0;
                             time_count_S2 <= 0;
+                            entered_S3 <= 1;  // 进入过 S3 后，标记为 1
                             in_menu_mode <= 0;
                         end else if (state_clean_stable) begin
                             State <= S4;
@@ -212,6 +215,7 @@ module state_machine(
             display <= 5'b00000;
             cleaned <= off;
             in_menu_mode <= 0;
+            entered_S3 <= 0;  // 重置 entered_S3
         end
     end
 endmodule
