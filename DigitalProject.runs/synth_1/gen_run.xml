@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcsg324-1" LaunchTime="1733033122">
+<GenRun Id="synth_1" LaunchPart="xc7a35tcsg324-1" LaunchTime="1733035745">
   <File Type="PA-TCL" Name="top_module.tcl"/>
   <File Type="RDS-PROPCONSTRS" Name="top_module_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="top_module_reports.tcl"/>
@@ -19,6 +19,13 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/clock_divider_enable.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/lighting_function.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -48,14 +55,6 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/top_module.v">
       <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/lighting_function.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>

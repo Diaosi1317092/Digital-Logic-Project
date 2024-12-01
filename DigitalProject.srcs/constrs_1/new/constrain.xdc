@@ -78,3 +78,8 @@ set_property PACKAGE_PIN R15 [get_ports power_button]
 
 
 
+
+set_property IOSTANDARD LVCMOS33 [get_ports light_in]
+set_property IOSTANDARD LVCMOS33 [get_ports light_out]
+set_property PACKAGE_PIN P4 [get_ports light_in]
+set_property PACKAGE_PIN J2 [get_ports light_out]

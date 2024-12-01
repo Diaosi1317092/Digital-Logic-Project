@@ -28,6 +28,8 @@ module top_module (
     input state_02,
     input state_03,
     input state_clean,
+    input light_in,
+    output light_out,
     output display_menu,
     output display_01,
     output display_02,
@@ -95,6 +97,12 @@ module top_module (
         .display_03(display_03),
         .display_clean(display_clean),
         .cleaned(cleaned)
+    );
+    
+    lighting_function lighting_function_inst (
+        .power(reset & power_on),
+        .light_in(light_in),
+        .light_out(light_out)
     );
     
     always @(posedge clk) begin

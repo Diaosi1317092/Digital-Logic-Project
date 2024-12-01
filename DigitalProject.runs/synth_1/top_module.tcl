@@ -31,6 +31,7 @@ set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider_enable.v
+  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lighting_function.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v
