@@ -246,15 +246,16 @@ module state_machine(
                     end else begin
                         min <= min + 1;
                     end
+                end else begin
+                    sec <= sec + 1;
+                end
+            end else if (cleaned)begin
+                    sec <= 0;
+                    min <= 0;
+                    hour <= 0;
             end else begin
-                sec <= sec + 1;
+                
             end
-        end else if (cleaned)begin
-                sec <= 0;
-                min <= 0;
-                hour <= 0;
-        end else begin
-        end
         end
     end
 endmodule
