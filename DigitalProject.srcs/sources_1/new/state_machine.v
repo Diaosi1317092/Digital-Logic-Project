@@ -32,6 +32,7 @@ module state_machine(
     output display_02,
     output display_03,
     output display_clean, //状态的LED显示
+    output [17:0] work_time,
     output reg cleaned
 );
 
@@ -45,6 +46,9 @@ module state_machine(
     reg [3:0] time_count_menu;
     reg [3:0] time_count_S2;
     reg [3:0] time_count_clean;
+    reg [5:0] sec;
+    reg [5:0] min;
+    reg [5:0] hour;
     reg [4:0] display;
     reg in_menu_mode; // 用来标记是否在菜单模式
     reg entered_S3;  // 新增信号，标记是否已经进入过S3状态
@@ -59,6 +63,9 @@ module state_machine(
     assign display_02 = display[2];
     assign display_03 = display[3];
     assign display_clean = display[4];
+    
+    assign work_time={hour,min,sec};
+
 
     // 按钮去抖动
     always @(posedge clk or negedge reset) begin
@@ -216,6 +223,38 @@ module state_machine(
             cleaned <= off;
             in_menu_mode <= 0;
             entered_S3 <= 0;  // 重置 entered_S3
+        end
+    end
+    
+    //记录累计工作时长
+    always @(posedge clk or negedge reset) begin
+        if (~reset) begin
+                sec <= 0;
+                min <= 0;
+                hour <= 0;
+        end else begin
+            if(State == S1|State == S2|State == S3) begin
+                if (sec == 59) begin
+                    sec <= 0;
+                    if (min == 59) begin
+                        min <= 0;
+                        if (hour == 23) begin
+                            hour <= 0;
+                        end else begin
+                            hour <= hour + 1;
+                        end
+                    end else begin
+                        min <= min + 1;
+                    end
+            end else begin
+                sec <= sec + 1;
+            end
+        end else if (cleaned)begin
+                sec <= 0;
+                min <= 0;
+                hour <= 0;
+        end else begin
+        end
         end
     end
 endmodule

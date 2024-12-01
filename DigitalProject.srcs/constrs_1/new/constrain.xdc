@@ -83,3 +83,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports light_in]
 set_property IOSTANDARD LVCMOS33 [get_ports light_out]
 set_property PACKAGE_PIN P4 [get_ports light_in]
 set_property PACKAGE_PIN J2 [get_ports light_out]
+
+set_property IOSTANDARD LVCMOS33 [get_ports {search_in[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {search_in[0]}]
+set_property PACKAGE_PIN P3 [get_ports {search_in[1]}]
+set_property PACKAGE_PIN P2 [get_ports {search_in[0]}]

@@ -29,6 +29,7 @@ module top_module (
     input state_03,
     input state_clean,
     input light_in,
+    input [1:0] search_in,
     output light_out,
     output display_menu,
     output display_01,
@@ -46,6 +47,8 @@ module top_module (
     wire [5:0] sec;
     wire [5:0] min;
     wire [5:0] hour;
+    wire [17:0] current_time;//记录当下时间
+    wire [17:0] work_time;//记录累计工作时间
     reg [3:0] select;
     reg [1:0] cycle_count;
     reg power_on;          // 记录开机状态
@@ -67,9 +70,7 @@ module top_module (
     timer timer_inst (
         .clk(clk_out),
         .reset(reset & power_on),
-        .sec(sec),
-        .min(min),
-        .hour(hour)
+        .current_time(current_time)
     );
 
     seven_segment_display display_inst (
@@ -96,13 +97,23 @@ module top_module (
         .display_02(display_02),
         .display_03(display_03),
         .display_clean(display_clean),
-        .cleaned(cleaned)
+        .cleaned(cleaned),
+        .work_time(work_time)
     );
     
     lighting_function lighting_function_inst (
         .power(reset & power_on),
         .light_in(light_in),
         .light_out(light_out)
+    );
+    
+    search_function search_function_inst(
+        .search_in(search_in),
+        .current_time(current_time),
+        .work_time(work_time),
+        .sec(sec),
+        .min(min),
+        .hour(hour)
     );
     
     always @(posedge clk) begin
