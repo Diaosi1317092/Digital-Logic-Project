@@ -26,14 +26,16 @@ module state_machine(
     input state_01,
     input state_02,
     input state_03,
-    input state_clean, //按钮输入
+    input state_clean_auto,
+    input state_clean_manual, //按钮输入
     output display_menu,
     output display_01,
     output display_02,
     output display_03,
     output display_clean, //状态的LED显示
     output [17:0] work_time,
-    output reg cleaned
+    output reg cleaned,
+    output reg [2:0] State
 );
 
     // 定义状态
@@ -42,7 +44,6 @@ module state_machine(
     parameter wait_period_S3 = 4'b0110; //三档自动切换二档或者待机的时长
     parameter wait_period_clean = 4'b0100; //自清洁的时长
 
-    reg [2:0] State;
     reg [3:0] time_count_menu;
     reg [3:0] time_count_S2;
     reg [3:0] time_count_clean;
@@ -113,7 +114,7 @@ module state_machine(
                 state_03_stable <= 0;
             end
 
-            if (state_clean) begin
+            if (state_clean_auto) begin
                 if (state_clean_counter < DEBOUNCE_THRESHOLD) begin
                     state_clean_counter <= state_clean_counter + 1;
                 end else begin
@@ -249,7 +250,7 @@ module state_machine(
                 end else begin
                     sec <= sec + 1;
                 end
-            end else if (cleaned)begin
+            end else if (cleaned|state_clean_manual)begin
                     sec <= 0;
                     min <= 0;
                     hour <= 0;

@@ -27,7 +27,8 @@ module top_module (
     input state_01,
     input state_02,
     input state_03,
-    input state_clean,
+    input state_clean_auto,
+    input state_clean_manual,
     input light_in,
     input [1:0] search_in,
     output light_out,
@@ -36,19 +37,22 @@ module top_module (
     output display_02,
     output display_03,
     output display_clean,
-    output cleaned,
+    output cleaned,//清洁完成提醒 可删可保留
     output [7:0] seg1,
     output [7:0] seg2,
-    output wire [5:0] an
+    output wire [5:0] an,
+    output remainder
 );
 
     wire clk_out;
     wire clk_out_en;
+    wire [2:0] State;
     wire [5:0] sec;
     wire [5:0] min;
     wire [5:0] hour;
     wire [17:0] current_time;//记录当下时间
     wire [17:0] work_time;//记录累计工作时间
+    wire [17:0] limit_time=10;//记录设置后的最大工作时间
     reg [3:0] select;
     reg [1:0] cycle_count;
     reg power_on;          // 记录开机状态
@@ -90,7 +94,8 @@ module top_module (
         .state_01(state_01),
         .state_02(state_02),
         .state_03(state_03),
-        .state_clean(state_clean),
+        .state_clean_auto(state_clean_auto),
+        .state_clean_manual(state_clean_manual),
         .menu(menu),
         .display_menu(display_menu),
         .display_01(display_01),
@@ -98,7 +103,8 @@ module top_module (
         .display_03(display_03),
         .display_clean(display_clean),
         .cleaned(cleaned),
-        .work_time(work_time)
+        .work_time(work_time),
+        .State(State)
     );
     
     lighting_function lighting_function_inst (
@@ -114,6 +120,16 @@ module top_module (
         .sec(sec),
         .min(min),
         .hour(hour)
+    );
+    
+    smart_remainder remainder_inst(
+        .clk(clk_out),
+        .power(power_on),
+        .cleaned(cleaned),
+        .work_time(work_time),
+        .limit_time(limit_time),
+        .State(State),
+        .remainder(remainder)
     );
     
     always @(posedge clk) begin
@@ -167,7 +183,3 @@ module top_module (
                 (select == 4'd4) ? 6'b000010 : 
                 (select == 4'd5) ? 6'b000001 : 6'b111111;
 endmodule
-
-
-
-

@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date             : Sun Dec  1 17:11:00 2024
-| Host             : Dupreeh running 64-bit major release  (build 9200)
+| Date             : Thu Dec  5 16:33:26 2024
+| Host             : ASCHENPUTTEL running 64-bit major release  (build 9200)
 | Command          : report_power -file top_module_power_routed.rpt -pb top_module_power_summary_routed.pb -rpx top_module_power_routed.rpx
 | Design           : top_module
 | Device           : xc7a35tcsg324-1
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 10.566       |
+| Total On-Chip Power (W)  | 10.614       |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 10.424       |
-| Device Static (W)        | 0.141        |
+| Dynamic (W)              | 10.472       |
+| Device Static (W)        | 0.142        |
 | Effective TJA (C/W)      | 4.8          |
-| Max Ambient (C)          | 34.5         |
-| Junction Temperature (C) | 75.5         |
+| Max Ambient (C)          | 34.3         |
+| Junction Temperature (C) | 75.7         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,17 +52,17 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     0.888 |      531 |       --- |             --- |
-|   LUT as Logic |     0.805 |      248 |     20800 |            1.19 |
-|   Register     |     0.040 |      189 |     41600 |            0.45 |
+| Slice Logic    |     0.909 |      534 |       --- |             --- |
+|   LUT as Logic |     0.826 |      252 |     20800 |            1.21 |
+|   Register     |     0.040 |      190 |     41600 |            0.46 |
 |   CARRY4       |     0.037 |       21 |      8150 |            0.26 |
 |   BUFG         |     0.006 |        2 |        32 |            6.25 |
 |   F7/F8 Muxes  |     0.001 |        1 |     32600 |           <0.01 |
 |   Others       |     0.000 |       10 |       --- |             --- |
-| Signals        |     0.807 |      435 |       --- |             --- |
-| I/O            |     8.729 |       40 |       210 |           19.05 |
-| Static Power   |     0.141 |          |           |                 |
-| Total          |    10.566 |          |           |                 |
+| Signals        |     0.837 |      442 |       --- |             --- |
+| I/O            |     8.725 |       42 |       210 |           20.00 |
+| Static Power   |     0.142 |          |           |                 |
+| Total          |    10.614 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,9 +72,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     1.802 |       1.735 |      0.067 |
+| Vccint    |       1.000 |     1.858 |       1.791 |      0.067 |
 | Vccaux    |       1.800 |     0.337 |       0.318 |      0.019 |
-| Vcco33    |       3.300 |     2.460 |       2.459 |      0.001 |
+| Vcco33    |       3.300 |     2.458 |       2.457 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -136,15 +136,16 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+----------------+-----------+
-| Name           | Power (W) |
-+----------------+-----------+
-| top_module     |    10.424 |
-|   clk_div_inst |     0.276 |
-|   clk_en_inst  |     0.254 |
-|   display_inst |     0.050 |
-|   state_dut    |     0.159 |
-|   timer_inst   |     0.511 |
-+----------------+-----------+
++------------------+-----------+
+| Name             | Power (W) |
++------------------+-----------+
+| top_module       |    10.472 |
+|   clk_div_inst   |     0.303 |
+|   clk_en_inst    |     0.268 |
+|   display_inst   |     0.067 |
+|   remainder_inst |     0.000 |
+|   state_dut      |     0.195 |
+|   timer_inst     |     0.491 |
++------------------+-----------+
 
 
