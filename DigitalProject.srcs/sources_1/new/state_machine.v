@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module state_machine(
     input clk,
+    input clk_de,
     input reset,
     input power,
     input menu,
@@ -41,18 +42,18 @@ module state_machine(
     // 定义状态
     parameter on = 1'b1, off = 1'b0;
     parameter S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, S3 = 3'b011, S4 = 3'b100; //待机、一档、二档、三档、自清洁
-    parameter wait_period_S3 = 4'b0110; //三档自动切换二档或者待机的时长
-    parameter wait_period_clean = 4'b0100; //自清洁的时长
+    parameter wait_period_S3 = 1000; //三档自动切换二档或者待机的时长
+    parameter wait_period_clean = 800; //自清洁的时长
 
-    reg [3:0] time_count_menu;
-    reg [3:0] time_count_S2;
-    reg [3:0] time_count_clean;
+    reg [9:0] time_count_S3;
+    reg [9:0] time_count_clean;
     reg [5:0] sec;
     reg [5:0] min;
     reg [5:0] hour;
     reg [4:0] display;
     reg in_menu_mode; // 用来标记是否在菜单模式
     reg entered_S3;  // 新增信号，标记是否已经进入过S3状态
+    reg [7:0] count;
 
     // 按钮去抖动处理
     reg state_01_stable, state_02_stable, state_03_stable, state_clean_stable;
@@ -69,7 +70,7 @@ module state_machine(
 
 
     // 按钮去抖动
-    always @(posedge clk or negedge reset) begin
+    always @(posedge clk_de or negedge reset) begin
         if (~reset) begin
             state_01_stable <= 0;
             state_02_stable <= 0;
@@ -128,7 +129,7 @@ module state_machine(
     end
 
     // 状态机实现
-    always @(posedge clk or negedge reset) begin
+    always @(posedge clk_de or negedge reset) begin
         if (~reset) begin
             State <= S0;
             display <= 5'b00001;
@@ -143,27 +144,30 @@ module state_machine(
                     // 如果处于菜单模式才允许切换状态
                     if (menu && !in_menu_mode) begin
                         in_menu_mode <= 1;  // 进入菜单模式
-                    end else if (in_menu_mode) begin
+                    end else if (in_menu_mode&&!menu) begin
                         // 在菜单模式下按下按钮切换档位
                         if (state_01_stable) begin
                             State <= S1;
-                            in_menu_mode <= 0; // 退出菜单模式
+                            in_menu_mode <= 0;
                         end else if (state_02_stable) begin
                             State <= S2;
                             in_menu_mode <= 0;
                         end else if (state_03_stable && !entered_S3) begin
                             State <= S3;
-                            time_count_menu <= 0;
-                            time_count_S2 <= 0;
+                            time_count_S3 <= 0;
                             entered_S3 <= 1;  // 进入过 S3 后，标记为 1
                             in_menu_mode <= 0;
                         end else if (state_clean_stable) begin
                             State <= S4;
                             time_count_clean <= 0;
                             in_menu_mode <= 0;
+                        end else begin
+                            in_menu_mode <= 1;
+                            State <= S0;
                         end
                     end else begin
                         State <= S0; // 保持在待机状态
+                        in_menu_mode <= in_menu_mode;
                     end
                 end
 
@@ -171,10 +175,18 @@ module state_machine(
                     display <= 5'b00010;
                     if (state_02_stable) begin
                         State <= S2;
-                    end else if (menu) begin
-                        State <= S0;
+                        in_menu_mode <= 0;
                     end else begin
-                        State <= S1;
+                        if (menu&&!in_menu_mode) begin
+                            State <= S1;
+                            in_menu_mode <= 1;
+                        end else if (in_menu_mode&&!menu) begin
+                            State <= S0;
+                            in_menu_mode <= 0;
+                        end else begin
+                            State <= S1;
+                            in_menu_mode <= in_menu_mode;
+                        end
                     end
                 end
 
@@ -182,25 +194,44 @@ module state_machine(
                     display <= 5'b00100;
                     if (state_01_stable) begin
                         State <= S1;
-                    end else if (menu) begin
-                        State <= S0;
+                        in_menu_mode <= 0;
                     end else begin
-                        State <= S2;
+                        if (menu&&!in_menu_mode) begin
+                            State <= S2;
+                            in_menu_mode <= 1;
+                        end else if (in_menu_mode&&!menu) begin
+                            State <= S0;
+                            in_menu_mode <= 0;
+                        end else begin
+                            State <= S2;
+                            in_menu_mode <= in_menu_mode;
+                        end
                     end
                 end
 
                 S3: begin // 三档
                     display <= 5'b01000;
-                    if (menu) begin
-                        if (time_count_menu > wait_period_S3) begin
+                    if (menu&&!in_menu_mode) begin
+                        in_menu_mode <= 1;
+                    end else begin end
+                    
+                    if (in_menu_mode&&!menu) begin
+                        if (time_count_S3 > wait_period_S3) begin
                             State <= S0;
+                            in_menu_mode<=0;
                         end else begin
-                            time_count_menu <= time_count_menu + 1;
+                            time_count_S3 <= time_count_S3 + 1;
+                            in_menu_mode<=1;
+                            State <= S3;
                         end
                     end else begin
-                        time_count_S2 <= time_count_S2 + 1;
-                        if (time_count_S2 > wait_period_S3) begin
+                        time_count_S3 <= time_count_S3 + 1;
+                        if (time_count_S3 > wait_period_S3) begin
                             State <= S2;
+                            in_menu_mode<=1;
+                        end else begin
+                            State <= S3;
+                            in_menu_mode<=in_menu_mode;
                         end
                     end
                 end
@@ -220,43 +251,58 @@ module state_machine(
                 end
             endcase
         end else begin
+            State <= S0;
             display <= 5'b00000;
             cleaned <= off;
             in_menu_mode <= 0;
             entered_S3 <= 0;  // 重置 entered_S3
+            time_count_S3 <= 0;
+            time_count_clean <= 0;
         end
     end
     
     //记录累计工作时长
-    always @(posedge clk or negedge reset) begin
+    always @(posedge clk_de or negedge reset) begin
         if (~reset) begin
+                count <= 0;
                 sec <= 0;
                 min <= 0;
                 hour <= 0;
-        end else begin
+        end else if (power)begin
             if(State == S1|State == S2|State == S3) begin
-                if (sec == 59) begin
-                    sec <= 0;
-                    if (min == 59) begin
-                        min <= 0;
-                        if (hour == 23) begin
-                            hour <= 0;
+                if(count == 100) begin
+                    count <= 0;
+                    if (sec == 59) begin
+                        sec <= 0;
+                        if (min == 59) begin
+                            min <= 0;
+                            if (hour == 23) begin
+                                hour <= 0;
+                            end else begin
+                                hour <= hour + 1;
+                            end
                         end else begin
-                            hour <= hour + 1;
+                            min <= min + 1;
                         end
                     end else begin
-                        min <= min + 1;
+                        sec <= sec + 1;
                     end
                 end else begin
-                    sec <= sec + 1;
+                    count <= count + 1;
                 end
             end else if (cleaned|state_clean_manual)begin
                     sec <= 0;
                     min <= 0;
                     hour <= 0;
+                    count <= 0;
             end else begin
                 
             end
+        end else begin
+            count <= 0;
+            sec <= 0;
+            min <= 0;
+            hour <= 0;
         end
     end
 endmodule

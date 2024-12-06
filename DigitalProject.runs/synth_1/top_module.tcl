@@ -30,6 +30,7 @@ set_property ip_output_repo c:/Users/48946/Documents/GitHub/Digital-Logic-Projec
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_debounce.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_enable.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/lighting_function.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/search_function.v

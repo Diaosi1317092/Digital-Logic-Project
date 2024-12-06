@@ -41,11 +41,12 @@ module top_module (
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [5:0] an,
-    output remainder
+    output reminder
 );
 
     wire clk_out;
     wire clk_out_en;
+    wire clk_out_de;    
     wire [2:0] State;
     wire [5:0] sec;
     wire [5:0] min;
@@ -70,7 +71,13 @@ module top_module (
         .reset(reset),
         .clk_out(clk_out_en)
     );
-
+    
+    clock_divider_debounce clk_de_inst (
+        .clk(clk),
+        .reset(reset),
+        .clk_out(clk_out_de)
+    );
+    
     timer timer_inst (
         .clk(clk_out),
         .reset(reset & power_on),
@@ -89,6 +96,7 @@ module top_module (
     
     state_machine state_dut(
         .clk(clk_out),
+        .clk_de(clk_out_de),        
         .reset(reset),
         .power(power_on),
         .state_01(state_01),
@@ -122,14 +130,14 @@ module top_module (
         .hour(hour)
     );
     
-    smart_remainder remainder_inst(
+    smart_reminder reminder_inst(
         .clk(clk_out),
         .power(power_on),
         .cleaned(cleaned),
         .work_time(work_time),
         .limit_time(limit_time),
         .State(State),
-        .remainder(remainder)
+        .reminder(reminder)
     );
     
     always @(posedge clk) begin
