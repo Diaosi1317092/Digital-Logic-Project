@@ -32,6 +32,7 @@ read_verilog -library xil_defaultlib {
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_debounce.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_enable.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/lcd1602_display.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/lighting_function.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/search_function.v
   C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/seven_segment_display.v

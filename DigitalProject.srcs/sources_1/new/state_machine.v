@@ -29,6 +29,7 @@ module state_machine(
     input state_03,
     input state_clean_auto,
     input state_clean_manual, //°´Å¥ÊäÈë
+    input time_finished,
     output display_menu,
     output display_01,
     output display_02,
@@ -211,24 +212,22 @@ module state_machine(
 
                 S3: begin // Èıµµ
                     display <= 5'b01000;
+//                    time_count_S3 <= time_count_S3 + 1;
                     if (menu&&!in_menu_mode) begin
                         in_menu_mode <= 1;
-                    end else begin end
-                    
-                    if (in_menu_mode&&!menu) begin
-                        if (time_count_S3 > wait_period_S3) begin
+                        State <= S3;
+                    end else if (in_menu_mode&&!menu) begin
+                        if (time_finished) begin
                             State <= S0;
                             in_menu_mode<=0;
                         end else begin
-                            time_count_S3 <= time_count_S3 + 1;
                             in_menu_mode<=1;
                             State <= S3;
                         end
                     end else begin
-                        time_count_S3 <= time_count_S3 + 1;
-                        if (time_count_S3 > wait_period_S3) begin
+                        if (time_finished) begin
                             State <= S2;
-                            in_menu_mode<=1;
+                            in_menu_mode<=0;
                         end else begin
                             State <= S3;
                             in_menu_mode<=in_menu_mode;

@@ -41,7 +41,14 @@ module top_module (
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [5:0] an,
-    output reminder
+    output reminder,
+    output lcd_p,    //Backlight Source +
+    output lcd_n,    //Backlight Source -
+    output lcd_rs,    //0:write order; 1:write data   
+    output lcd_rw,        //0:write data;  1:read data
+    output lcd_en,    //negedge 
+    output [7:0] lcd_data,
+    output finished
 );
 
     wire clk_out;
@@ -105,6 +112,7 @@ module top_module (
         .state_clean_auto(state_clean_auto),
         .state_clean_manual(state_clean_manual),
         .menu(menu),
+        .time_finished(finished),
         .display_menu(display_menu),
         .display_01(display_01),
         .display_02(display_02),
@@ -139,6 +147,20 @@ module top_module (
         .State(State),
         .reminder(reminder)
     );
+    
+    lcd1602_display lcd_inst(
+    .clk(clk),
+    .power(power_on),
+    .state_03(state_03),
+    .state_machine(State),
+    .lcd_p(lcd_p),    //Backlight Source +
+    .lcd_n(lcd_n),    //Backlight Source -
+    .lcd_rs(lcd_rs),    //0:write order; 1:write data   
+    .lcd_rw(lcd_rw),        //0:write data;  1:read data
+    .lcd_en(lcd_en),    //negedge 
+    .lcd_data(lcd_data),
+    .finished(finished)
+        );
     
     always @(posedge clk) begin
         power_button_sync <= power_button;      // ²¶»ñ°´Å¥×´Ì¬
