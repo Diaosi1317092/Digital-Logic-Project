@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date             : Mon Dec  9 23:21:11 2024
+| Date             : Mon Dec  9 23:46:51 2024
 | Host             : ASCHENPUTTEL running 64-bit major release  (build 9200)
 | Command          : report_power -file top_module_power_routed.rpt -pb top_module_power_summary_routed.pb -rpx top_module_power_routed.rpx
 | Design           : top_module
@@ -29,20 +29,20 @@ Table of Contents
 1. Summary
 ----------
 
-+--------------------------+--------------+
-| Total On-Chip Power (W)  | 11.907       |
-| Design Power Budget (W)  | Unspecified* |
-| Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 11.743       |
-| Device Static (W)        | 0.164        |
-| Effective TJA (C/W)      | 4.8          |
-| Max Ambient (C)          | 28.1         |
-| Junction Temperature (C) | 81.9         |
-| Confidence Level         | Low          |
-| Setting File             | ---          |
-| Simulation Activity File | ---          |
-| Design Nets Matched      | NA           |
-+--------------------------+--------------+
++--------------------------+----------------------------------+
+| Total On-Chip Power (W)  | 26.553 (Junction temp exceeded!) |
+| Design Power Budget (W)  | Unspecified*                     |
+| Power Budget Margin (W)  | NA                               |
+| Dynamic (W)              | 26.067                           |
+| Device Static (W)        | 0.486                            |
+| Effective TJA (C/W)      | 4.8                              |
+| Max Ambient (C)          | 0.0                              |
+| Junction Temperature (C) | 125.0                            |
+| Confidence Level         | Low                              |
+| Setting File             | ---                              |
+| Simulation Activity File | ---                              |
+| Design Nets Matched      | NA                               |
++--------------------------+----------------------------------+
 * Specify Design Power Budget using, set_operating_conditions -design_power_budget <value in Watts>
 
 
@@ -52,17 +52,17 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     1.214 |     1878 |       --- |             --- |
-|   LUT as Logic |     1.071 |      961 |     20800 |            4.62 |
-|   CARRY4       |     0.075 |      208 |      8150 |            2.55 |
-|   Register     |     0.060 |      339 |     41600 |            0.81 |
+| Slice Logic    |     9.563 |     1822 |       --- |             --- |
+|   LUT as Logic |     8.586 |      917 |     20800 |            4.41 |
+|   CARRY4       |     0.909 |      211 |      8150 |            2.59 |
+|   Register     |     0.060 |      299 |     41600 |            0.72 |
 |   BUFG         |     0.006 |        2 |        32 |            6.25 |
 |   F7/F8 Muxes  |     0.002 |        1 |     32600 |           <0.01 |
 |   Others       |     0.000 |       22 |       --- |             --- |
-| Signals        |     1.156 |     1545 |       --- |             --- |
+| Signals        |     7.132 |     1483 |       --- |             --- |
 | I/O            |     9.373 |       56 |       210 |           26.67 |
-| Static Power   |     0.164 |          |           |                 |
-| Total          |    11.907 |          |           |                 |
+| Static Power   |     0.486 |          |           |                 |
+| Total          |    26.553 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,16 +72,16 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     2.498 |       2.414 |      0.084 |
-| Vccaux    |       1.800 |     0.363 |       0.342 |      0.021 |
-| Vcco33    |       3.300 |     2.642 |       2.641 |      0.001 |
+| Vccint    |       1.000 |    17.079 |      16.738 |      0.341 |
+| Vccaux    |       1.800 |     0.395 |       0.342 |      0.053 |
+| Vcco33    |       3.300 |     2.641 |       2.640 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.002 |       0.000 |      0.002 |
+| Vccbram   |       1.000 |     0.010 |       0.000 |      0.010 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |
@@ -139,15 +139,15 @@ Table of Contents
 +-----------------+-----------+
 | Name            | Power (W) |
 +-----------------+-----------+
-| top_module      |    11.743 |
-|   clk_de_inst   |     0.220 |
-|   clk_div_inst  |     0.227 |
-|   clk_en_inst   |     0.211 |
-|   display_inst  |     0.071 |
-|   lcd_inst      |     0.391 |
+| top_module      |    26.067 |
+|   clk_de_inst   |     0.211 |
+|   clk_div_inst  |     0.239 |
+|   clk_en_inst   |     0.208 |
+|   display_inst  |     0.069 |
+|   lcd_inst      |     3.099 |
 |   reminder_inst |     0.002 |
-|   state_dut     |     0.719 |
-|   timer_inst    |     0.061 |
+|   state_dut     |     0.714 |
+|   timer_inst    |     0.074 |
 +-----------------+-----------+
 
 

@@ -38,6 +38,7 @@ output reg finished
     assign lcd_rw = 1'b0;   //only write
     reg [31:0] cnt1;
     reg [7:0] time_count;
+    reg [7:0] time_limit;
     wire [7:0] time_count_down;
     wire [7:0] data0,data1,data2; //counter data
     wire [7:0] data_r0,data_r1,data_r2;
@@ -46,8 +47,19 @@ output reg finished
                  Cursor_Set  =  8'h0c,
                  Address_Set =  8'h06,
                  Clear_Set   =  8'h01,
-                 time_limit = 10,
-                 S3 = 3'b011;
+                 S3 = 3'b011,
+                 S4 = 3'b100;
+                 
+   always@(state_machine) begin
+        if(state_machine == S3) begin //三档工作时长
+            time_limit = 10;
+        end else if(state_machine == S4) begin//自清洁工作时长
+            time_limit = 30;
+        end else begin
+            time_limit = 0;
+        end
+    end
+            
                  
    assign time_count_down = time_limit - time_count ;
    assign data_r0 = time_count_down % 10;     
@@ -58,7 +70,7 @@ output reg finished
    assign data2 = 8'h30 + data_r2;                  
                      
     always@(posedge clk) begin
-        if(power & state_machine == S3) begin
+        if(power & (state_machine == S3|state_machine == S4)) begin
           if(cnt1==100000000) begin
               if(time_count < time_limit) begin
                  time_count <= time_count + 1 ;

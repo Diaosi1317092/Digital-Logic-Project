@@ -112,6 +112,7 @@ module top_module (
         .state_clean_auto(state_clean_auto),
         .state_clean_manual(state_clean_manual),
         .menu(menu),
+        .finished(finished),
         .display_menu(display_menu),
         .display_01(display_01),
         .display_02(display_02),

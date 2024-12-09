@@ -29,6 +29,7 @@ module state_machine(
     input state_03,
     input state_clean_auto,
     input state_clean_manual, 
+    input finished,
     output display_menu,
     output display_01,
     output display_02,
@@ -247,9 +248,8 @@ module state_machine(
                     next_in_menu_mode=0;
                 end else begin
                 	next_time_count_S3 = time_count_S3 + 1;
-
                     if (in_menu_mode&!menu) begin
-                        if (time_count_S3 > wait_period_S3) begin
+                        if (finished) begin
                             next_state = S0;
                             next_in_menu_mode = 0;
                         end else begin
@@ -257,7 +257,7 @@ module state_machine(
                             next_state = S3;
                         end
                     end else begin
-                        if (time_count_S3 > wait_period_S3) begin
+                        if (finished) begin
                             next_state = S2;
                             next_in_menu_mode= 0;
                         end else begin
@@ -278,7 +278,7 @@ module state_machine(
                     next_state = S5;
                 end else begin
                 	next_time_count_clean = time_count_clean + 1;
-                    if (time_count_clean > wait_period_clean) begin
+                    if (finished) begin
                         cleaned = on;
                         next_state = S0;
                     end else begin
