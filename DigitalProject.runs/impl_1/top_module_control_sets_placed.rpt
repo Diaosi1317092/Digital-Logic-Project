@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date         : Sun Dec  8 23:42:45 2024
+| Date         : Mon Dec  9 23:20:47 2024
 | Host         : ASCHENPUTTEL running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file top_module_control_sets_placed.rpt
 | Design       : top_module
@@ -22,8 +22,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    30 |
-| Unused register locations in slices containing registers |   104 |
+| Number of unique control sets                            |    33 |
+| Unused register locations in slices containing registers |   133 |
 +----------------------------------------------------------+-------+
 
 
@@ -33,65 +33,69 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              18 |            8 |
-| No           | No                    | Yes                    |             130 |           45 |
-| No           | Yes                   | No                     |              65 |           21 |
+| No           | No                    | No                     |              68 |           29 |
+| No           | No                    | Yes                    |             124 |           36 |
+| No           | Yes                   | No                     |              65 |           25 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |              63 |           27 |
-| Yes          | Yes                   | No                     |              52 |           23 |
+| Yes          | No                    | Yes                    |              58 |           24 |
+| Yes          | Yes                   | No                     |              24 |           17 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 3. Detailed Control Set Information
 -----------------------------------
 
-+-----------------------------------+------------------------------------------+-----------------------------------------+------------------+----------------+
-|            Clock Signal           |               Enable Signal              |             Set/Reset Signal            | Slice Load Count | Bel Load Count |
-+-----------------------------------+------------------------------------------+-----------------------------------------+------------------+----------------+
-|  clk_div_inst/CLK                 |                                          | state_dut/reminder_reg                  |                1 |              1 |
-|  clk_out_de_BUFG                  | state_dut/state_clean_stable_i_1_n_0     | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              1 |
-|  clk_out_de_BUFG                  | state_dut/state_03_stable_i_1_n_0        | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              1 |
-|  clk_out_de_BUFG                  | state_dut/state_01_stable_i_1_n_0        | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              1 |
-|  clk_out_de_BUFG                  | state_dut/state_02_stable_i_1_n_0        | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              1 |
-|  clk_IBUF_BUFG                    | lcd_inst/lcd_en2_out                     | lcd_inst/FSM_onehot_state[23]_i_1_n_0   |                1 |              1 |
-|  clk_en_inst/CLK                  |                                          | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              4 |
-|  clk_out_de_BUFG                  | state_dut/state_02_counter[3]_i_1_n_0    | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              4 |
-|  clk_out_de_BUFG                  | state_dut/state_01_counter[3]_i_1_n_0    | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              4 |
-|  clk_out_de_BUFG                  | state_dut/state_clean_counter[3]_i_1_n_0 | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              4 |
-|  clk_out_de_BUFG                  | state_dut/state_03_counter[3]_i_1_n_0    | state_dut/FSM_sequential_State_reg[2]_0 |                1 |              4 |
-|  clk_IBUF_BUFG                    |                                          |                                         |                4 |              4 |
-|  clk_out_de_BUFG                  | state_dut/display[4]_i_1_n_0             | state_dut/FSM_sequential_State_reg[2]_0 |                2 |              5 |
-|  clk_div_inst/CLK                 |                                          | timer_inst/sec[5]_i_2__0_n_0            |                2 |              6 |
-|  clk_div_inst/CLK                 | timer_inst/min[5]_i_1__0_n_0             | timer_inst/sec[5]_i_2__0_n_0            |                2 |              6 |
-|  clk_div_inst/CLK                 | timer_inst/hour                          | timer_inst/sec[5]_i_2__0_n_0            |                2 |              6 |
-|  clk_out_de_BUFG                  |                                          | state_dut/FSM_sequential_State_reg[2]_0 |                6 |              6 |
-|  clk_out_de_BUFG                  | state_dut/hour[5]_i_1_n_0                | state_dut/FSM_sequential_State_reg[2]_0 |                3 |              6 |
-|  clk_out_de_BUFG                  | state_dut/min[5]_i_1_n_0                 | state_dut/FSM_sequential_State_reg[2]_0 |                3 |              6 |
-|  clk_out_de_BUFG                  | state_dut/sec[5]_i_1_n_0                 | state_dut/FSM_sequential_State_reg[2]_0 |                4 |              6 |
-|  display_inst/seg1_reg[7]_i_2_n_0 |                                          |                                         |                2 |              7 |
-|  display_inst/seg2_reg[7]_i_2_n_0 |                                          |                                         |                2 |              7 |
-|  clk_out_de_BUFG                  | state_dut/count[7]_i_1__2_n_0            | state_dut/FSM_sequential_State_reg[2]_0 |                3 |              8 |
-|  clk_IBUF_BUFG                    | lcd_inst/time_count                      | state_dut/SR[0]                         |                5 |              8 |
-|  clk_IBUF_BUFG                    | lcd_inst/lcd_rs_i_1_n_0                  | lcd_inst/FSM_onehot_state[23]_i_1_n_0   |                5 |              9 |
-|  clk_out_de_BUFG                  | state_dut/time_count_clean[9]_i_2_n_0    | state_dut/time_count_clean[9]_i_1_n_0   |                4 |             10 |
-|  clk_IBUF_BUFG                    | lcd_inst/lcd_clk_en_reg_n_0              | lcd_inst/FSM_onehot_state[23]_i_1_n_0   |                8 |             24 |
-|  clk_IBUF_BUFG                    |                                          | lcd_inst/FSM_onehot_state[23]_i_1_n_0   |               12 |             32 |
-|  clk_IBUF_BUFG                    |                                          | state_dut/SR[0]                         |                8 |             32 |
-|  clk_IBUF_BUFG                    |                                          | state_dut/FSM_sequential_State_reg[2]_0 |               36 |            114 |
-+-----------------------------------+------------------------------------------+-----------------------------------------+------------------+----------------+
++-------------------------------------------------+------------------------------------------+------------------------------+------------------+----------------+
+|                   Clock Signal                  |               Enable Signal              |       Set/Reset Signal       | Slice Load Count | Bel Load Count |
++-------------------------------------------------+------------------------------------------+------------------------------+------------------+----------------+
+|  clk_out_de_BUFG                                | state_dut/state_03_stable_i_1_n_0        | state_dut/hour_reg[0]_0      |                1 |              1 |
+|  clk_out_de_BUFG                                | state_dut/state_01_stable_i_1_n_0        | state_dut/hour_reg[0]_0      |                1 |              1 |
+|  clk_out_de_BUFG                                | state_dut/state_02_stable_i_1_n_0        | state_dut/hour_reg[0]_0      |                1 |              1 |
+|  clk_out_de_BUFG                                | state_dut/state_clean_stable_i_1_n_0     | state_dut/hour_reg[0]_0      |                1 |              1 |
+|  clk_IBUF_BUFG                                  | state_dut/SR[0]                          | lcd_inst/finished1_out       |                1 |              1 |
+|  clk_div_inst/CLK                               |                                          | state_dut/reminder_reg       |                1 |              1 |
+|  state_dut/cleaned_reg_i_2_n_0                  |                                          |                              |                1 |              1 |
+|  clk_IBUF_BUFG                                  | lcd_inst/lcd_en2_out                     | lcd_inst/p_0_in              |                1 |              1 |
+|  clk_IBUF_BUFG                                  |                                          |                              |                3 |              3 |
+|  clk_out_de_BUFG                                | state_dut/state_02_counter[3]_i_1_n_0    | state_dut/hour_reg[0]_0      |                1 |              4 |
+|  clk_out_de_BUFG                                | state_dut/state_01_counter[3]_i_1_n_0    | state_dut/hour_reg[0]_0      |                1 |              4 |
+|  clk_out_de_BUFG                                | state_dut/state_03_counter[3]_i_1_n_0    | state_dut/hour_reg[0]_0      |                1 |              4 |
+|  clk_out_de_BUFG                                | state_dut/state_clean_counter[3]_i_1_n_0 | state_dut/hour_reg[0]_0      |                1 |              4 |
+|  clk_en_inst/CLK                                |                                          | state_dut/hour_reg[0]_0      |                1 |              4 |
+|  clk_IBUF_BUFG                                  | lcd_inst/lcd_clk_en_reg_n_0              | lcd_inst/p_0_in              |                3 |              5 |
+|  state_dut/display                              |                                          |                              |                3 |              5 |
+|  clk_out_de_BUFG                                | state_dut/sec[5]_i_1_n_0                 | state_dut/hour_reg[0]_0      |                3 |              6 |
+|  clk_out_de_BUFG                                | state_dut/hour[5]_i_1_n_0                | state_dut/hour_reg[0]_0      |                3 |              6 |
+|  clk_div_inst/CLK                               |                                          | timer_inst/sec[5]_i_2__0_n_0 |                2 |              6 |
+|  clk_out_de_BUFG                                | state_dut/min[5]_i_1_n_0                 | state_dut/hour_reg[0]_0      |                2 |              6 |
+|  clk_div_inst/CLK                               | timer_inst/hour                          | timer_inst/sec[5]_i_2__0_n_0 |                2 |              6 |
+|  clk_div_inst/CLK                               | timer_inst/min[5]_i_1__0_n_0             | timer_inst/sec[5]_i_2__0_n_0 |                3 |              6 |
+|  display_inst/seg1_reg[7]_i_2_n_0               |                                          |                              |                2 |              7 |
+|  display_inst/seg2_reg[7]_i_2_n_0               |                                          |                              |                2 |              7 |
+|  clk_IBUF_BUFG                                  | lcd_inst/time_count                      | state_dut/SR[0]              |                5 |              8 |
+|  clk_out_de_BUFG                                | state_dut/count[7]_i_1__2_n_0            | state_dut/hour_reg[0]_0      |                3 |              8 |
+|  clk_IBUF_BUFG                                  | lcd_inst/g0_b0__1_n_0                    | lcd_inst/p_0_in              |                7 |              9 |
+|  state_dut/next_time_count_S3_reg[9]_i_2_n_0    |                                          |                              |                3 |             10 |
+|  state_dut/next_time_count_clean_reg[9]_i_2_n_0 |                                          |                              |                4 |             10 |
+|  clk_out_de_BUFG                                |                                          |                              |               11 |             25 |
+|  clk_IBUF_BUFG                                  |                                          | state_dut/SR[0]              |               12 |             32 |
+|  clk_IBUF_BUFG                                  |                                          | lcd_inst/p_0_in              |               12 |             32 |
+|  clk_IBUF_BUFG                                  |                                          | state_dut/hour_reg[0]_0      |               33 |            114 |
++-------------------------------------------------+------------------------------------------+------------------------------+------------------+----------------+
 
 
 +--------+-----------------------+
 | Fanout | Number of ControlSets |
 +--------+-----------------------+
-| 1      |                     6 |
-| 4      |                     6 |
-| 5      |                     1 |
-| 6      |                     7 |
+| 1      |                     8 |
+| 3      |                     1 |
+| 4      |                     5 |
+| 5      |                     2 |
+| 6      |                     6 |
 | 7      |                     2 |
 | 8      |                     2 |
 | 9      |                     1 |
-| 10     |                     1 |
+| 10     |                     2 |
 | 16+    |                     4 |
 +--------+-----------------------+
 

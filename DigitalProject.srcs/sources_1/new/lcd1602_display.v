@@ -39,8 +39,8 @@ output reg finished
     reg [31:0] cnt1;
     reg [7:0] time_count;
     wire [7:0] time_count_down;
-    wire [7:0] data0,data1; //counter data
-    wire [7:0] data_r0,data_r1;
+    wire [7:0] data0,data1,data2; //counter data
+    wire [7:0] data_r0,data_r1,data_r2;
     wire [7:0] addr;   //write address
     parameter   Mode_Set    =  8'h31,
                  Cursor_Set  =  8'h0c,
@@ -52,11 +52,13 @@ output reg finished
    assign time_count_down = time_limit - time_count ;
    assign data_r0 = time_count_down % 10;     
    assign data_r1 = (time_count_down - data_r0) / 10 ;
+   assign data_r2 = (time_count_down - data_r1*10 - data_r0) / 10 ;
    assign data0 = 8'h30 + data_r0;
    assign data1 = 8'h30 + data_r1;
+   assign data2 = 8'h30 + data_r2;                  
                      
     always@(posedge clk) begin
-        if(power&state_machine==S3) begin
+        if(power & state_machine == S3) begin
           if(cnt1==100000000) begin
               if(time_count < time_limit) begin
                  time_count <= time_count + 1 ;
@@ -208,7 +210,7 @@ reg [4:0] state;
                          5'd20: begin
                                  lcd_rs <= 1'b1;
                                  lcd_en <= 1'b1;
-                                 lcd_data <= data1;   //write data: single digit
+                                 lcd_data <= data2;   //write data: single digit
                                  state <= state + 1'd1;
                                  end
                          5'd21: begin
@@ -218,13 +220,23 @@ reg [4:0] state;
                          5'd22: begin
                                  lcd_rs <= 1'b1;
                                  lcd_en <= 1'b1;
-                                 lcd_data <= data0;   //write data: single digit
+                                 lcd_data <= data1;   //write data: single digit
                                  state <= state + 1'd1;
                                 end
                          5'd23: begin
                                  lcd_en <= 1'b0;
+                                 state <= state + 1'd1;
+                                end   
+                          5'd24: begin
+                                lcd_rs <= 1'b1;
+                                lcd_en <= 1'b1;
+                                lcd_data <= data0;   //write data: single digit
+                                state <= state + 1'd1;
+                               end
+                          5'd25: begin 
+                                 lcd_en <= 1'b0;
                                  state <= 5'd8;
-                                end                         
+                                end              
                          default: state <= 5'bxxxxx;
                      endcase
                  end
