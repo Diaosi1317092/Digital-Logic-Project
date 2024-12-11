@@ -1,9 +1,10 @@
 module seven_segment_display (
     input [5:0] sec, min, hour,
+    input [3:0] scan_key,
     input [3:0] select,
     output reg [7:0] seg1,
     output reg [7:0] seg2,
-    output [5:0] an
+    output [7:0] an
 );
 
     reg [7:0] seg_map [0:9]; 
@@ -28,6 +29,8 @@ module seven_segment_display (
             4'd3: seg1 = seg_map[min % 10];
             4'd4: seg2 = seg_map[sec / 10];
             4'd5: seg2 = seg_map[sec % 10];
+            4'd6: seg2 = seg_map[scan_key / 10];
+            4'd7: seg2 = seg_map[scan_key % 10];
             default: begin seg1 = 8'b00000000; seg2 = 8'b00000000; end
         endcase
     end

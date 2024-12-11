@@ -31,6 +31,7 @@ module top_module (
     input state_clean_manual,
     input light_in,
     input [1:0] search_in,
+    input [3:0] column,
     output light_out,
     output display_menu,
     output display_01,
@@ -40,7 +41,7 @@ module top_module (
     output cleaned,//清洁完成提醒 可删可保留
     output [7:0] seg1,
     output [7:0] seg2,
-    output wire [5:0] an,
+    output wire [7:0] an,
     output reminder,
     output lcd_p,    //Backlight Source +
     output lcd_n,    //Backlight Source -
@@ -48,7 +49,8 @@ module top_module (
     output lcd_rw,        //0:write data;  1:read data
     output lcd_en,    //negedge 
     output [7:0] lcd_data,
-    output finished
+    output finished,
+    output [3:0] row_out     // 行输出信号
 );
 
     wire clk_out;
@@ -61,11 +63,44 @@ module top_module (
     wire [17:0] current_time;//记录当下时间
     wire [17:0] work_time;//记录累计工作时间
     wire [17:0] limit_time=10;//记录设置后的最大工作时间
+    wire [3:0] scan_key;     // 扫描到的按键
+    
     reg [3:0] select;
     reg [1:0] cycle_count;
     reg power_on;          // 记录开机状态
     reg [31:0] power_timer;// 开关机计时器
     reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
+    reg [3:0] scan_key_sync,scan_key_stable;
+    reg [31:0] scan_key_cnt;
+    
+    keyboard_driver key_dri_inst(
+        .clk(clk),
+        .rst(reset),
+        .column(column),
+        .row_out(row_out),
+        .scan_key(scan_key)
+    );
+    
+    always @(posedge clk or posedge reset) begin
+        if (~reset) begin
+            scan_key_sync <= 4'b1111;
+            scan_key_stable <= 4'b1111;  
+            scan_key_cnt <= 0;
+        end else begin
+            if (scan_key == scan_key_sync) begin
+                if (scan_key_cnt < 25'd4999999) begin
+                    scan_key_cnt <= scan_key_cnt + 1;
+                end else begin
+                    scan_key_stable <= scan_key;  
+                end
+            end else begin
+                scan_key_sync <= 4'b1111;
+                scan_key_stable <= 4'b1111;  
+                scan_key_cnt <= 0;
+            end
+            scan_key_sync <= scan_key;  
+        end
+    end
 
     clock_divider clk_div_inst (
         .clk(clk),
@@ -95,6 +130,7 @@ module top_module (
         .sec(sec),
         .min(min),
         .hour(hour),
+        .scan_key(scan_key_stable),
         .select(select),
         .seg1(seg1),
         .seg2(seg2),
@@ -149,18 +185,18 @@ module top_module (
     );
     
     lcd1602_display lcd_inst(
-    .clk(clk),
-    .power(power_on),
-    .state_03(state_03),
-    .state_machine(State),
-    .lcd_p(lcd_p),    //Backlight Source +
-    .lcd_n(lcd_n),    //Backlight Source -
-    .lcd_rs(lcd_rs),    //0:write order; 1:write data   
-    .lcd_rw(lcd_rw),        //0:write data;  1:read data
-    .lcd_en(lcd_en),    //negedge 
-    .lcd_data(lcd_data),
-    .finished(finished)
-        );
+        .clk(clk),
+        .power(power_on),
+        .state_03(state_03),
+        .state_machine(State),
+        .lcd_p(lcd_p),    //Backlight Source +
+        .lcd_n(lcd_n),    //Backlight Source -
+        .lcd_rs(lcd_rs),    //0:write order; 1:write data   
+        .lcd_rw(lcd_rw),        //0:write data;  1:read data
+        .lcd_en(lcd_en),    //negedge 
+        .lcd_data(lcd_data),
+        .finished(finished)
+    );
     
     always @(posedge clk) begin
         power_button_sync <= power_button;      // 捕获按钮状态
@@ -196,7 +232,7 @@ module top_module (
         if (~reset) begin
             select <= 4'd0;
         end else begin
-            if (select == 4'd5) begin 
+            if (select == 4'd7) begin 
                 select <= 4'd0;
             end
             else begin
@@ -205,11 +241,13 @@ module top_module (
         end
     end
 
-    assign an = (~reset || ~power_on) ? 6'b000000 : 
-                (select == 4'd0) ? 6'b100000 :
-                (select == 4'd1) ? 6'b010000 :
-                (select == 4'd2) ? 6'b001000 :
-                (select == 4'd3) ? 6'b000100 : 
-                (select == 4'd4) ? 6'b000010 : 
-                (select == 4'd5) ? 6'b000001 : 6'b111111;
+    assign an = (~reset || ~power_on) ? 8'b00000000 : 
+                (select == 4'd0) ? 8'b10000000 :
+                (select == 4'd1) ? 8'b01000000 :
+                (select == 4'd2) ? 8'b00100000 :
+                (select == 4'd3) ? 8'b00010000 : 
+                (select == 4'd4) ? 8'b00001000 : 
+                (select == 4'd5) ? 8'b00000100 : 
+                (select == 4'd6) ? 8'b00000010 :
+                (select == 4'd7) ? 8'b00000001 : 8'b11111111;
 endmodule
