@@ -35,6 +35,7 @@ read_verilog -library xil_defaultlib {
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/keyboard_driver.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lighting_function.v
+  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/power_set.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/search_function.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v
   D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/smart_reminder.v
