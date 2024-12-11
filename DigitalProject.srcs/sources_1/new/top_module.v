@@ -67,7 +67,7 @@ module top_module (
     
     reg [3:0] select;
     reg [1:0] cycle_count;
-    reg power_on;          // 记录开机状态
+    reg power_on, power_flag_left, power_flag_right;          // 记录开机状态
     reg [31:0] power_timer;// 开关机计时器
     reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
     reg [3:0] scan_key_sync,scan_key_stable;
@@ -80,27 +80,6 @@ module top_module (
         .row_out(row_out),
         .scan_key(scan_key)
     );
-    
-    always @(posedge clk or posedge reset) begin
-        if (~reset) begin
-            scan_key_sync <= 4'b1111;
-            scan_key_stable <= 4'b1111;  
-            scan_key_cnt <= 0;
-        end else begin
-            if (scan_key == scan_key_sync) begin
-                if (scan_key_cnt < 25'd4999999) begin
-                    scan_key_cnt <= scan_key_cnt + 1;
-                end else begin
-                    scan_key_stable <= scan_key;  
-                end
-            end else begin
-                scan_key_sync <= 4'b1111;
-                scan_key_stable <= 4'b1111;  
-                scan_key_cnt <= 0;
-            end
-            scan_key_sync <= scan_key;  
-        end
-    end
 
     clock_divider clk_div_inst (
         .clk(clk),
@@ -205,6 +184,8 @@ module top_module (
     
    always @(posedge clk or posedge reset) begin
         if (~reset) begin
+            power_flag_left <= 1'b0;
+            power_flag_right <= 1'b0;
             power_on <= 1'b0;
             power_timer <= 32'd0;
         end else if (power_button_stable) begin  // 只有按钮稳定时才处理
@@ -223,8 +204,68 @@ module top_module (
                     power_timer <= 32'd0; // 重置计时器
                 end
             end
+        end else if (scan_key_stable == 4'b0011) begin
+            power_flag_left <= 1'b1;
+        end else if (scan_key_stable == 4'b1011) begin
+            power_flag_right <= 1'b1;
+        end else if (power_flag_left) begin
+            if (power_timer < 32'd500000000) begin // 等待 5 秒 
+                power_timer <= power_timer + 1;
+                if (power_flag_right) begin
+                    power_on <= ~power_on; // 持续 5 秒后关机
+                    power_timer <= 32'd0; // 重置计时器
+                    power_flag_left <= 1'b0;
+                    power_flag_right <= 1'b0;
+                end else begin
+                
+                end
+            end else begin
+                power_timer <= 32'd0; // 重置计时器
+                power_flag_left <= 1'b0;
+                power_flag_right <= 1'b0;
+            end
+        end else if (power_flag_right) begin
+            if (power_timer < 32'd500000000) begin // 等待 5 秒 
+                power_timer <= power_timer + 1;
+                if (power_flag_left) begin
+                    power_on <= ~power_on; // 持续 5 秒后开/关机
+                    power_timer <= 32'd0; // 重置计时器
+                    power_flag_left <= 1'b0;
+                    power_flag_right <= 1'b0;
+                end else begin
+                    
+                end
+            end else begin
+                power_timer <= 32'd0; // 重置计时器
+                power_flag_left <= 1'b0;
+                power_flag_right <= 1'b0;
+            end
+        end else if (scan_key_stable != 4'b1111 && scan_key_stable != 4'b0011 && scan_key_stable != 4'b1011) begin
+            power_flag_left <= 1'b0;
+            power_flag_right <= 1'b0;
         end else begin
             power_timer <= 32'd0;  // 没有按下时，计时器清零
+        end
+    end
+    
+    always @(posedge clk or posedge reset) begin
+        if (~reset) begin
+            scan_key_sync <= 4'b1111;
+            scan_key_stable <= 4'b1111;  
+            scan_key_cnt <= 0;
+        end else begin
+            if (scan_key == scan_key_sync) begin
+                if (scan_key_cnt < 25'd4999999) begin
+                    scan_key_cnt <= scan_key_cnt + 1;
+                end else begin
+                    scan_key_stable <= scan_key;  
+                end
+            end else begin
+                scan_key_sync <= 4'b1111;
+                scan_key_stable <= 4'b1111;  
+                scan_key_cnt <= 0;
+            end
+            scan_key_sync <= scan_key;  
         end
     end
     
