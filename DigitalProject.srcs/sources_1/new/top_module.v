@@ -32,6 +32,7 @@ module top_module (
     input light_in,
     input [1:0] search_in,
     input [3:0] column,
+    input in_cpt_mode,
     output light_out,
     output display_menu,
     output display_01,
@@ -66,6 +67,8 @@ module top_module (
     wire [17:0] limit_time=10;//记录设置后的最大工作时间
     wire [3:0] scan_key;     // 扫描到的按键
     wire [5:0] count_sec;
+    wire [5:0] work_count_down;//S3和自清洁倒计时
+//    wire [6:0] time_limit = 6'd5;
     
     reg [3:0] select;
     reg [1:0] cycle_count;
@@ -118,7 +121,7 @@ module top_module (
         .an(an)
     );
     
-    state_machine state_dut(
+    state_machine state_inst(
         .clk(clk_out),
         .clk_de(clk_out_de),        
         .reset(reset),
@@ -137,6 +140,7 @@ module top_module (
         .display_clean(display_clean),
         .cleaned(cleaned),
         .work_time(work_time),
+        .work_count_down(work_count_down),
         .State(State)
     );
     
@@ -148,8 +152,11 @@ module top_module (
     
     search_function search_function_inst(
         .search_in(search_in),
+        .State(State),
         .current_time(current_time),
         .work_time(work_time),
+        .count_sec(count_sec),
+        .work_count_down(work_count_down),
         .sec(sec),
         .min(min),
         .hour(hour)
@@ -170,6 +177,7 @@ module top_module (
         .power(power_on),
         .state_03(state_03),
         .state_machine(State),
+        .work_count_down(work_count_down),
         .lcd_p(lcd_p),    //Backlight Source +
         .lcd_n(lcd_n),    //Backlight Source -
         .lcd_rs(lcd_rs),    //0:write order; 1:write data   
@@ -184,9 +192,19 @@ module top_module (
         .rst(reset),
         .power_button(power_button),
         .scan_key_stable(scan_key_stable),
+//        .time_limit(time_limit),
+        .in_mode(in_cpt_mode),
         .power_on(power_on),
         .count_sec(count_sec)
     );
+    
+//    change_power_time change_power_inst(
+//        .clk(clk),
+//        .rst(reset),
+//        .in_mode(in_cpt_mode),
+//        .scan_key_stable(scan_key_stable),
+//        .time_limit(time_limit)
+//    );
     
     always @(posedge clk or posedge reset) begin
         if (~reset) begin

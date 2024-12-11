@@ -14,9 +14,9 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 22344 
+INFO: Helper process launched with PID 21420 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:00 ; elapsed = 00:00:03 . Memory (MB): peak = 330.445 ; gain = 100.586
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 331.531 ; gain = 101.086
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'top_module' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:22]
 INFO: [Synth 8-638] synthesizing module 'keyboard_driver' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/keyboard_driver.v:23]
@@ -41,8 +41,9 @@ INFO: [Synth 8-256] done synthesizing module 'clock_divider_debounce' (4#1) [D:/
 INFO: [Synth 8-638] synthesizing module 'timer' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v:43]
 INFO: [Synth 8-256] done synthesizing module 'timer' (5#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v:43]
 INFO: [Synth 8-638] synthesizing module 'seven_segment_display' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:1]
-WARNING: [Synth 8-3848] Net an in module/entity seven_segment_display does not have driver. [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:7]
+WARNING: [Synth 8-3848] Net an in module/entity seven_segment_display does not have driver. [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:8]
 INFO: [Synth 8-256] done synthesizing module 'seven_segment_display' (6#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:1]
+WARNING: [Synth 8-350] instance 'display_inst' of module 'seven_segment_display' requires 9 connections, but only 8 given [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:113]
 INFO: [Synth 8-638] synthesizing module 'state_machine' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:21]
 	Parameter on bound to: 1'b1 
 	Parameter off bound to: 1'b0 
@@ -53,11 +54,12 @@ INFO: [Synth 8-638] synthesizing module 'state_machine' [D:/Verilog/DigitalProje
 	Parameter S4 bound to: 3'b100 
 	Parameter S5 bound to: 3'b101 
 	Parameter S6 bound to: 3'b110 
+	Parameter S7 bound to: 3'b111 
 	Parameter wait_period_S3 bound to: 1000 - type: integer 
-	Parameter wait_period_clean bound to: 800 - type: integer 
+	Parameter wait_period_clean bound to: 3000 - type: integer 
 	Parameter DEBOUNCE_THRESHOLD bound to: 4'b0001 
-WARNING: [Synth 8-6014] Unused sequential element time_count_S3_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:139]
-WARNING: [Synth 8-6014] Unused sequential element time_count_clean_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:140]
+	Parameter divider bound to: 100 - type: integer 
+INFO: [Synth 8-226] default block is never used [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:161]
 INFO: [Synth 8-256] done synthesizing module 'state_machine' (7#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:21]
 INFO: [Synth 8-638] synthesizing module 'lighting_function' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lighting_function.v:23]
 	Parameter on bound to: 1'b1 
@@ -66,6 +68,16 @@ INFO: [Synth 8-256] done synthesizing module 'lighting_function' (8#1) [D:/Veril
 INFO: [Synth 8-638] synthesizing module 'search_function' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/search_function.v:23]
 	Parameter show_current_time bound to: 2'b00 
 	Parameter show_work_time bound to: 2'b01 
+	Parameter show_power_time bound to: 2'b10 
+	Parameter zero bound to: 6'b000000 
+	Parameter S0 bound to: 3'b000 
+	Parameter S1 bound to: 3'b001 
+	Parameter S2 bound to: 3'b010 
+	Parameter S3 bound to: 3'b011 
+	Parameter S4 bound to: 3'b100 
+	Parameter S5 bound to: 3'b101 
+	Parameter S6 bound to: 3'b110 
+	Parameter S7 bound to: 3'b111 
 INFO: [Synth 8-256] done synthesizing module 'search_function' (9#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/search_function.v:23]
 INFO: [Synth 8-638] synthesizing module 'smart_reminder' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/smart_reminder.v:23]
 	Parameter S0 bound to: 3'b000 
@@ -84,13 +96,16 @@ INFO: [Synth 8-638] synthesizing module 'lcd1602_display' [D:/Verilog/DigitalPro
 	Parameter Address_Set bound to: 8'b00000110 
 	Parameter Clear_Set bound to: 8'b00000001 
 	Parameter S3 bound to: 3'b011 
+	Parameter S7 bound to: 3'b111 
 	Parameter S4 bound to: 3'b100 
 INFO: [Synth 8-256] done synthesizing module 'lcd1602_display' (11#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v:23]
+WARNING: [Synth 8-350] instance 'lcd_inst' of module 'lcd1602_display' requires 13 connections, but only 12 given [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:175]
 INFO: [Synth 8-638] synthesizing module 'power_set' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/power_set.v:22]
 INFO: [Synth 8-256] done synthesizing module 'power_set' (12#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/power_set.v:22]
 INFO: [Synth 8-256] done synthesizing module 'top_module' (13#1) [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:22]
 WARNING: [Synth 8-3331] design lcd1602_display has unconnected port state_03
 WARNING: [Synth 8-3331] design state_machine has unconnected port clk
+WARNING: [Synth 8-3331] design state_machine has unconnected port finished
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[7]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[6]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[5]
@@ -99,8 +114,11 @@ WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[3]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[2]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[1]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[0]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[2]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[1]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[0]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 383.312 ; gain = 153.453
+Finished RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 383.918 ; gain = 153.473
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -110,7 +128,7 @@ Report Check Netlist:
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 383.312 ; gain = 153.453
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 383.918 ; gain = 153.473
 ---------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7a35tcsg324-1
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -126,22 +144,22 @@ Completed Processing XDC Constraints
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 717.676 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 720.102 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 717.676 ; gain = 487.816
+Finished Constraint Validation : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 720.102 ; gain = 489.656
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 717.676 ; gain = 487.816
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 720.102 ; gain = 489.656
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 717.676 ; gain = 487.816
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:02 ; elapsed = 00:00:10 . Memory (MB): peak = 720.102 ; gain = 489.656
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-5546] ROM "column_debounce" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5544] ROM "restart" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
@@ -158,11 +176,9 @@ INFO: [Synth 8-5544] ROM "seg2" won't be mapped to Block RAM because address siz
 INFO: [Synth 8-5544] ROM "seg_map" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "seg_map" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
 INFO: [Synth 8-802] inferred FSM for state register 'State_reg' in module 'state_machine'
-INFO: [Synth 8-5546] ROM "sec" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "min" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "hour" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5544] ROM "display" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "work_count_down" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_entered_S3" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "display" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
@@ -170,35 +186,41 @@ INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because addre
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
-WARNING: [Synth 8-6014] Unused sequential element state_01_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:83]
-WARNING: [Synth 8-6014] Unused sequential element state_02_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:84]
-WARNING: [Synth 8-6014] Unused sequential element state_03_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:85]
-WARNING: [Synth 8-6014] Unused sequential element state_clean_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:86]
+WARNING: [Synth 8-6014] Unused sequential element state_01_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:87]
+WARNING: [Synth 8-6014] Unused sequential element state_02_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:88]
+WARNING: [Synth 8-6014] Unused sequential element state_03_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:89]
+WARNING: [Synth 8-6014] Unused sequential element state_clean_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:90]
+INFO: [Synth 8-5544] ROM "time_limit" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
 INFO: [Synth 8-5545] ROM "cnt1" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 INFO: [Synth 8-5545] ROM "lcd_clk_en" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 INFO: [Synth 8-5545] ROM "cnt" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-WARNING: [Synth 8-6014] Unused sequential element time_count_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v:64]
+WARNING: [Synth 8-6014] Unused sequential element time_count_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v:75]
 INFO: [Synth 8-5544] ROM "power_flag_left" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "power_flag_right" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
-WARNING: [Synth 8-6014] Unused sequential element scan_key_cnt_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:195]
-WARNING: [Synth 8-327] inferring latch for variable 'seg1_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:26]
-WARNING: [Synth 8-327] inferring latch for variable 'seg2_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:30]
+INFO: [Synth 8-5845] Not enough pipeline registers after wide multiplier. Recommended levels of pipeline registers is 2 [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/power_set.v:69]
+WARNING: [Synth 8-6014] Unused sequential element scan_key_cnt_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:213]
+WARNING: [Synth 8-327] inferring latch for variable 'seg1_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:27]
+WARNING: [Synth 8-327] inferring latch for variable 'seg2_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v:31]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
                       S0 |                              000 |                              000
                       S6 |                              001 |                              110
                       S3 |                              010 |                              011
-                      S2 |                              011 |                              010
-                      S1 |                              100 |                              001
-                      S4 |                              101 |                              100
-                      S5 |                              110 |                              101
+                      S7 |                              011 |                              111
+                      S2 |                              100 |                              010
+                      S1 |                              101 |                              001
+                      S4 |                              110 |                              100
+                      S5 |                              111 |                              101
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'State_reg' using encoding 'sequential' in module 'state_machine'
-WARNING: [Synth 8-327] inferring latch for variable 'display_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:67]
-WARNING: [Synth 8-327] inferring latch for variable 'cleaned_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:161]
+WARNING: [Synth 8-327] inferring latch for variable 'next_time_count_S3_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:165]
+WARNING: [Synth 8-327] inferring latch for variable 'next_time_count_clean_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:166]
+WARNING: [Synth 8-327] inferring latch for variable 'work_count_down_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:272]
+WARNING: [Synth 8-327] inferring latch for variable 'next_cleaned_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:168]
+WARNING: [Synth 8-327] inferring latch for variable 'output_time_reg' [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/search_function.v:41]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:11 . Memory (MB): peak = 717.676 ; gain = 487.816
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:11 . Memory (MB): peak = 720.102 ; gain = 489.656
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -211,47 +233,56 @@ Start RTL Component Statistics
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input     32 Bit       Adders := 3     
+	   2 Input     32 Bit       Adders := 6     
 	   3 Input     32 Bit       Adders := 1     
 	   4 Input     32 Bit       Adders := 1     
 	   2 Input     28 Bit       Adders := 1     
 	   2 Input     25 Bit       Adders := 2     
-	   2 Input      8 Bit       Adders := 6     
-	   3 Input      8 Bit       Adders := 1     
-	   2 Input      6 Bit       Adders := 6     
+	   2 Input     16 Bit       Adders := 2     
+	   2 Input      8 Bit       Adders := 4     
+	   2 Input      6 Bit       Adders := 4     
+	   3 Input      6 Bit       Adders := 1     
 	   2 Input      4 Bit       Adders := 5     
 +---Registers : 
-	               32 Bit    Registers := 3     
+	               32 Bit    Registers := 4     
 	               28 Bit    Registers := 1     
 	               25 Bit    Registers := 2     
-	                8 Bit    Registers := 5     
-	                6 Bit    Registers := 7     
+	               16 Bit    Registers := 2     
+	                8 Bit    Registers := 3     
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 8     
 	                5 Bit    Registers := 1     
 	                4 Bit    Registers := 13    
-	                1 Bit    Registers := 21    
+	                1 Bit    Registers := 22    
 +---Muxes : 
-	   2 Input     32 Bit        Muxes := 11    
+	   2 Input     32 Bit        Muxes := 13    
+	   8 Input     32 Bit        Muxes := 1     
 	   2 Input     28 Bit        Muxes := 1     
 	   2 Input     25 Bit        Muxes := 2     
 	   2 Input     18 Bit        Muxes := 2     
-	   2 Input      8 Bit        Muxes := 6     
+	   4 Input     18 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 1     
+	   8 Input     16 Bit        Muxes := 2     
+	   2 Input      8 Bit        Muxes := 3     
 	  11 Input      8 Bit        Muxes := 2     
 	   8 Input      8 Bit        Muxes := 2     
 	  27 Input      8 Bit        Muxes := 1     
 	  10 Input      8 Bit        Muxes := 1     
-	   2 Input      6 Bit        Muxes := 17    
-	   7 Input      5 Bit        Muxes := 1     
+	   2 Input      6 Bit        Muxes := 8     
+	   8 Input      6 Bit        Muxes := 1     
+	   8 Input      5 Bit        Muxes := 1     
 	   3 Input      5 Bit        Muxes := 1     
 	   5 Input      4 Bit        Muxes := 5     
 	   2 Input      4 Bit        Muxes := 7     
-	   7 Input      3 Bit        Muxes := 1     
-	  28 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 60    
+	   8 Input      3 Bit        Muxes := 1     
+	  29 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 44    
 	   5 Input      1 Bit        Muxes := 3     
 	   3 Input      1 Bit        Muxes := 5     
-	   8 Input      1 Bit        Muxes := 2     
-	   7 Input      1 Bit        Muxes := 7     
+	   8 Input      1 Bit        Muxes := 11    
+	   4 Input      1 Bit        Muxes := 1     
 	  27 Input      1 Bit        Muxes := 1     
+	  10 Input      1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -334,27 +365,33 @@ Detailed RTL Component Info :
 Module state_machine 
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input      8 Bit       Adders := 1     
-	   2 Input      6 Bit       Adders := 3     
+	   2 Input     32 Bit       Adders := 3     
+	   2 Input     16 Bit       Adders := 2     
 	   2 Input      4 Bit       Adders := 4     
 +---Registers : 
-	                8 Bit    Registers := 1     
+	               32 Bit    Registers := 1     
+	               16 Bit    Registers := 2     
 	                6 Bit    Registers := 3     
 	                4 Bit    Registers := 4     
-	                1 Bit    Registers := 6     
+	                1 Bit    Registers := 7     
 +---Muxes : 
-	   2 Input      8 Bit        Muxes := 3     
-	   2 Input      6 Bit        Muxes := 9     
-	   7 Input      5 Bit        Muxes := 1     
+	   2 Input     32 Bit        Muxes := 2     
+	   8 Input     32 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 1     
+	   8 Input     16 Bit        Muxes := 2     
+	   8 Input      6 Bit        Muxes := 1     
+	   8 Input      5 Bit        Muxes := 1     
 	   2 Input      4 Bit        Muxes := 4     
-	   7 Input      3 Bit        Muxes := 1     
-	  28 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 34    
-	   7 Input      1 Bit        Muxes := 7     
+	   8 Input      3 Bit        Muxes := 1     
+	  29 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 18    
+	   8 Input      1 Bit        Muxes := 9     
 Module search_function 
 Detailed RTL Component Info : 
 +---Muxes : 
 	   2 Input     18 Bit        Muxes := 2     
+	   4 Input     18 Bit        Muxes := 1     
+	   4 Input      1 Bit        Muxes := 1     
 Module smart_reminder 
 Detailed RTL Component Info : 
 +---Registers : 
@@ -367,11 +404,12 @@ Detailed RTL Component Info :
 	   2 Input     32 Bit       Adders := 2     
 	   3 Input     32 Bit       Adders := 1     
 	   4 Input     32 Bit       Adders := 1     
-	   2 Input      8 Bit       Adders := 3     
-	   3 Input      8 Bit       Adders := 1     
+	   2 Input      8 Bit       Adders := 2     
+	   2 Input      6 Bit       Adders := 1     
 +---Registers : 
 	               32 Bit    Registers := 2     
-	                8 Bit    Registers := 2     
+	                8 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
 	                5 Bit    Registers := 1     
 	                1 Bit    Registers := 4     
 +---Muxes : 
@@ -384,13 +422,16 @@ Module power_set
 Detailed RTL Component Info : 
 +---Adders : 
 	   2 Input     32 Bit       Adders := 1     
+	   3 Input      6 Bit       Adders := 1     
 +---Registers : 
 	               32 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
 	                6 Bit    Registers := 1     
 	                1 Bit    Registers := 5     
 +---Muxes : 
 	   2 Input     32 Bit        Muxes := 9     
 	   2 Input      6 Bit        Muxes := 5     
+	  10 Input      1 Bit        Muxes := 1     
 	   3 Input      1 Bit        Muxes := 4     
 	   2 Input      1 Bit        Muxes := 10    
 ---------------------------------------------------------------------------------
@@ -414,17 +455,21 @@ WARNING: [Synth 8-6014] Unused sequential element row_debounce_cnt_reg was remov
 INFO: [Synth 8-5545] ROM "clk_out" won't be mapped to RAM because address size (28) is larger than maximum supported(25)
 INFO: [Synth 8-5546] ROM "clk_out" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5546] ROM "clk_out" won't be mapped to RAM because it is too sparse
-WARNING: [Synth 8-6014] Unused sequential element state_02_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:84]
-WARNING: [Synth 8-6014] Unused sequential element state_01_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:83]
-WARNING: [Synth 8-6014] Unused sequential element state_03_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:85]
-WARNING: [Synth 8-6014] Unused sequential element state_clean_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:86]
+WARNING: [Synth 8-6014] Unused sequential element state_02_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:88]
+WARNING: [Synth 8-6014] Unused sequential element state_01_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:87]
+WARNING: [Synth 8-6014] Unused sequential element state_03_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:89]
+WARNING: [Synth 8-6014] Unused sequential element state_clean_counter_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v:90]
 INFO: [Synth 8-5545] ROM "cnt" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 INFO: [Synth 8-5545] ROM "lcd_clk_en" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 INFO: [Synth 8-5545] ROM "cnt1" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-WARNING: [Synth 8-6014] Unused sequential element time_count_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v:64]
-WARNING: [Synth 8-6014] Unused sequential element scan_key_cnt_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:195]
+WARNING: [Synth 8-6014] Unused sequential element time_count_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v:75]
+DSP Report: Generating DSP power_flag_left2, operation Mode is: (A:0xf5e100)*B.
+DSP Report: operator power_flag_left2 is absorbed into DSP power_flag_left2.
+DSP Report: operator power_flag_left2 is absorbed into DSP power_flag_left2.
+WARNING: [Synth 8-6014] Unused sequential element scan_key_cnt_reg was removed.  [D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v:213]
 WARNING: [Synth 8-3331] design lcd1602_display has unconnected port state_03
 WARNING: [Synth 8-3331] design state_machine has unconnected port clk
+WARNING: [Synth 8-3331] design state_machine has unconnected port finished
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[7]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[6]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[5]
@@ -433,19 +478,22 @@ WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[3]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[2]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[1]
 WARNING: [Synth 8-3331] design seven_segment_display has unconnected port an[0]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[2]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[1]
+WARNING: [Synth 8-3331] design seven_segment_display has unconnected port State[0]
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (state_inst/\hour_reg[5] )
+INFO: [Synth 8-3886] merging instance 'power_inst/time_limit_reg[6]' (FDCE) to 'power_inst/time_limit_reg[4]'
+INFO: [Synth 8-3886] merging instance 'power_inst/time_limit_reg[4]' (FDCE) to 'power_inst/time_limit_reg[5]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\power_inst/time_limit_reg[5] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\display_inst/seg2_reg[0] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\display_inst/seg1_reg[0] )
 WARNING: [Synth 8-3332] Sequential element (display_inst/seg1_reg[0]) is unused and will be removed from module top_module.
 WARNING: [Synth 8-3332] Sequential element (display_inst/seg2_reg[0]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[5]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[4]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[3]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[2]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[1]) is unused and will be removed from module top_module.
-WARNING: [Synth 8-3332] Sequential element (power_inst/count_sec_reg[0]) is unused and will be removed from module top_module.
+WARNING: [Synth 8-3332] Sequential element (hour_reg[5]) is unused and will be removed from module state_machine.
+WARNING: [Synth 8-3332] Sequential element (power_inst/time_limit_reg[5]) is unused and will be removed from module top_module.
 WARNING: [Synth 8-3332] Sequential element (select_reg[3]) is unused and will be removed from module top_module.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:03 ; elapsed = 00:00:14 . Memory (MB): peak = 717.676 ; gain = 487.816
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:06 ; elapsed = 00:00:18 . Memory (MB): peak = 720.102 ; gain = 489.656
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -462,8 +510,18 @@ ROM:
 |lcd1602_display | state      | 32x5          | LUT            | 
 |lcd1602_display | lcd_rs     | 32x1          | LUT            | 
 |lcd1602_display | lcd_rs     | 32x1          | LUT            | 
+|lcd1602_display | lcd_en     | 32x1          | LUT            | 
 +----------------+------------+---------------+----------------+
 
+
+DSP: Preliminary Mapping  Report (see note below)
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping    | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|power_set   | (A:0xf5e100)*B | 25     | 8      | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
++------------+----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP and Shift Register Reporting
 ---------------------------------------------------------------------------------
@@ -477,13 +535,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:04 ; elapsed = 00:00:19 . Memory (MB): peak = 742.184 ; gain = 512.324
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:26 . Memory (MB): peak = 821.727 ; gain = 591.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:04 ; elapsed = 00:00:19 . Memory (MB): peak = 743.527 ; gain = 513.668
+Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:26 . Memory (MB): peak = 826.031 ; gain = 595.586
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -495,7 +553,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:04 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Technology Mapping : Time (s): cpu = 00:00:08 ; elapsed = 00:00:27 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -519,7 +577,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished IO Insertion : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -532,7 +590,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -544,25 +602,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -575,63 +633,66 @@ Report BlackBoxes:
 +-+--------------+----------+
 
 Report Cell Usage: 
-+------+-------+------+
-|      |Cell   |Count |
-+------+-------+------+
-|1     |BUFG   |     2|
-|2     |CARRY4 |   219|
-|3     |LUT1   |    58|
-|4     |LUT2   |   393|
-|5     |LUT3   |   261|
-|6     |LUT4   |   369|
-|7     |LUT5   |   146|
-|8     |LUT6   |   170|
-|9     |MUXF7  |     1|
-|10    |FDCE   |   233|
-|11    |FDPE   |    30|
-|12    |FDRE   |    99|
-|13    |LD     |    20|
-|14    |IBUF   |    16|
-|15    |OBUF   |    50|
-+------+-------+------+
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |BUFG    |     2|
+|2     |CARRY4  |   614|
+|3     |DSP48E1 |     1|
+|4     |LUT1    |   131|
+|5     |LUT2    |   816|
+|6     |LUT3    |   893|
+|7     |LUT4    |   981|
+|8     |LUT5    |   482|
+|9     |LUT6    |   585|
+|10    |MUXF7   |     7|
+|11    |FDCE    |   215|
+|12    |FDPE    |    32|
+|13    |FDRE    |   178|
+|14    |FDSE    |     1|
+|15    |LD      |    71|
+|16    |IBUF    |    17|
+|17    |OBUF    |    50|
++------+--------+------+
 
 Report Instance Areas: 
-+------+----------------+-----------------------+------+
-|      |Instance        |Module                 |Cells |
-+------+----------------+-----------------------+------+
-|1     |top             |                       |  2067|
-|2     |  clk_de_inst   |clock_divider_debounce |    64|
-|3     |  clk_div_inst  |clock_divider          |    72|
-|4     |  clk_en_inst   |clock_divider_enable   |    64|
-|5     |  display_inst  |seven_segment_display  |    20|
-|6     |  key_dri_inst  |keyboard_driver        |   128|
-|7     |  lcd_inst      |lcd1602_display        |   399|
-|8     |  power_inst    |power_set              |   122|
-|9     |  reminder_inst |smart_reminder         |     5|
-|10    |  state_dut     |state_machine          |   243|
-|11    |  timer_inst    |timer                  |    39|
-+------+----------------+-----------------------+------+
++------+-----------------------+-----------------------+------+
+|      |Instance               |Module                 |Cells |
++------+-----------------------+-----------------------+------+
+|1     |top                    |                       |  5076|
+|2     |  clk_de_inst          |clock_divider_debounce |    64|
+|3     |  clk_div_inst         |clock_divider          |    72|
+|4     |  clk_en_inst          |clock_divider_enable   |    64|
+|5     |  display_inst         |seven_segment_display  |    18|
+|6     |  key_dri_inst         |keyboard_driver        |   128|
+|7     |  lcd_inst             |lcd1602_display        |   351|
+|8     |  power_inst           |power_set              |   394|
+|9     |  reminder_inst        |smart_reminder         |     5|
+|10    |  search_function_inst |search_function        |    65|
+|11    |  state_inst           |state_machine          |  2967|
+|12    |  timer_inst           |timer                  |    40|
++------+-----------------------+-----------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 39 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:04 ; elapsed = 00:00:16 . Memory (MB): peak = 780.180 ; gain = 215.957
-Synthesis Optimization Complete : Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 780.180 ; gain = 550.320
+Synthesis finished with 0 errors, 0 critical warnings and 42 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:06 ; elapsed = 00:00:24 . Memory (MB): peak = 928.160 ; gain = 361.531
+Synthesis Optimization Complete : Time (s): cpu = 00:00:08 ; elapsed = 00:00:28 . Memory (MB): peak = 928.160 ; gain = 697.715
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 256 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 710 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 1 inverter(s) to 7 load pin(s).
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 20 instances were transformed.
-  LD => LDCE: 13 instances
+  A total of 71 instances were transformed.
+  LD => LDCE: 64 instances
   LD => LDCE (inverted pins: G): 7 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-82 Infos, 56 Warnings, 0 Critical Warnings and 0 Errors encountered.
+87 Infos, 63 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:06 ; elapsed = 00:00:23 . Memory (MB): peak = 780.180 ; gain = 554.211
+synth_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:32 . Memory (MB): peak = 928.160 ; gain = 702.117
 INFO: [Common 17-1381] The checkpoint 'D:/Verilog/DigitalProject/DigitalProject.runs/synth_1/top_module.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_module_utilization_synth.rpt -pb top_module_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 780.180 ; gain = 0.000
-INFO: [Common 17-206] Exiting Vivado at Wed Dec 11 15:37:18 2024...
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.022 . Memory (MB): peak = 928.160 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Thu Dec 12 00:21:43 2024...

@@ -142,3 +142,6 @@ set_property PACKAGE_PIN F1 [get_ports {an[2]}]
 set_property PACKAGE_PIN E1 [get_ports {an[1]}]
 set_property PACKAGE_PIN G6 [get_ports {an[0]}]
 
+
+set_property IOSTANDARD LVCMOS33 [get_ports in_cpt_mode]
+set_property PACKAGE_PIN R1 [get_ports in_cpt_mode]
