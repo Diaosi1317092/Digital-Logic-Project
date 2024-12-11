@@ -2,11 +2,12 @@ module seven_segment_display (
     input [5:0] sec, min, hour,
     input [3:0] scan_key,
     input [3:0] select,
+    input [2:0] State,
     output reg [7:0] seg1,
     output reg [7:0] seg2,
     output [7:0] an
 );
-
+ 
     reg [7:0] seg_map [0:9]; 
     initial begin
         seg_map[0] = 8'b11111100;
