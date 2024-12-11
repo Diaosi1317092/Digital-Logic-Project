@@ -36,33 +36,37 @@ module state_machine(
     output display_03,
     output display_clean,  
     output [17:0] work_time,
+    output reg [5:0] work_count_down,
     output reg cleaned,
     output reg [2:0] State
 );
 
  
     parameter on = 1'b1, off = 1'b0;
-    parameter S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, S3 = 3'b011, S4 = 3'b100,S5= 3'b101,S6= 3'b110;  
+    parameter S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, S3 = 3'b011, S4 = 3'b100,S5= 3'b101,S6= 3'b110, S7=3'b111;  
     parameter wait_period_S3 = 1000;  
-    parameter wait_period_clean = 800; 
-
-    reg [9:0] time_count_S3;
-    reg [9:0] time_count_clean;
+    parameter wait_period_clean = 3000; 
+    
+   
+    reg [15:0] time_count_S3;
+    reg [15:0] time_count_clean;
     reg [5:0] sec;
     reg [5:0] min;
     reg [5:0] hour;
     reg [4:0] display;
     reg in_menu_mode;  
     reg entered_S3,next_entered_S3;   
-    reg [7:0] count;
-    reg [9:0] next_time_count_S3;
-    reg [9:0] next_time_count_clean;
+    reg next_cleaned;
+    reg [31:0] count=0,next_count=0;
+    reg [15:0] next_time_count_S3;
+    reg [15:0] next_time_count_clean;
     reg [2:0] next_state;
     reg next_in_menu_mode;    
  
     reg state_01_stable, state_02_stable, state_03_stable, state_clean_stable;
     reg [3:0] state_01_counter, state_02_counter, state_03_counter, state_clean_counter;
     parameter DEBOUNCE_THRESHOLD = 4'b0001;  
+    parameter divider = 100;
 
     assign display_menu = display[0];
     assign display_01 = display[1];
@@ -139,6 +143,18 @@ module state_machine(
         time_count_S3<=next_time_count_S3;
         time_count_clean<=next_time_count_clean;
         entered_S3<=next_entered_S3;
+        cleaned<=next_cleaned;
+        if (state_clean_manual) begin
+            count<=0;
+            sec<=0;
+            min<=0;
+            hour<=0;  
+        end else begin
+            count<=next_count;
+            sec<=next_count/100%60;
+            min<=next_count/6000%60;
+            hour<=next_count/360000%24;     
+        end   
     end
     
     always @(*) begin
@@ -149,8 +165,10 @@ module state_machine(
 	    		next_time_count_S3 = 0;
 				next_time_count_clean = 0;
 				next_entered_S3=0;
+				next_cleaned = 0;
 	    		if (power) next_state=S0;
 	    		else next_state=S5;
+	    		next_count=0;
 			end
 			
 			S0: begin
@@ -158,7 +176,8 @@ module state_machine(
 	    		next_time_count_S3 = 0;
 				next_time_count_clean = 0;
                 next_entered_S3=entered_S3;
-				cleaned = off;//???
+				next_cleaned = off;
+				next_count=count;
 	    		if (!power) begin
                     next_state = S5;
                     next_in_menu_mode=0;
@@ -178,6 +197,8 @@ module state_machine(
 	    		next_time_count_S3 = 0;
 				next_time_count_clean = 0;
                 next_entered_S3=entered_S3;
+                next_cleaned = 0;
+                next_count=count;
 	    		if (!power) begin
                     next_state = S5;
                 end else if (state_01_stable) begin
@@ -198,6 +219,8 @@ module state_machine(
 	    		next_time_count_S3 = 0;
 				next_time_count_clean = 0;
                 next_entered_S3=entered_S3;
+                next_cleaned = 0;
+                next_count=count+1;
                 if (!power) begin
                     next_state = S5;
                     next_in_menu_mode=0;
@@ -221,6 +244,8 @@ module state_machine(
 	    		next_time_count_S3 = 0;
 				next_time_count_clean = 0;
                 next_entered_S3=entered_S3;
+                next_cleaned = 0;
+                next_count=count+1;
 	    		if (!power) begin
                     next_state = S5;
                     next_in_menu_mode=0;
@@ -243,24 +268,24 @@ module state_machine(
 	    		display=5'b01000;
 	    		next_time_count_clean = 0;
 	    		next_entered_S3 = 1;  
+                next_cleaned = 0;
+	    		work_count_down = (wait_period_S3 - time_count_S3) / divider;
+	    		next_count=count+1;
 	    		if (!power) begin
                     next_state = S5;
                     next_in_menu_mode=0;
                 end else begin
-                	next_time_count_S3 = time_count_S3 + 1;
+                    next_time_count_S3 = time_count_S3 + 1;
                     if (in_menu_mode&!menu) begin
-                        if (finished) begin
-                            next_state = S0;
-                            next_in_menu_mode = 0;
-                        end else begin
-                            next_in_menu_mode = in_menu_mode;
-                            next_state = S3;
-                        end
+                        next_time_count_S3 = 0;
+                        next_state = S7;
+                        next_in_menu_mode = 0;
                     end else begin
-                        if (finished) begin
+                        if (time_count_S3 > wait_period_S3) begin
                             next_state = S2;
                             next_in_menu_mode= 0;
                         end else begin
+                            next_time_count_S3 = time_count_S3 + 1;
                             next_state = S3;
                             if (menu) next_in_menu_mode=1;
 							else next_in_menu_mode=in_menu_mode;
@@ -268,21 +293,48 @@ module state_machine(
                     end
 				end
 			end
+			
+			S7: begin
+			display=5'b01000;
+                next_time_count_clean = 0;
+                next_entered_S3 = 1;  
+                next_cleaned = 0;
+                work_count_down = (wait_period_S3 - time_count_S3) / divider;
+                next_count=count+1;
+                if (!power) begin
+                    next_state = S5;
+                    next_in_menu_mode=0;
+                end else begin
+                    if (time_count_S3 > wait_period_S3) begin
+                        next_state = S0;
+                        next_in_menu_mode = 0;
+                    end else begin
+                        next_time_count_S3 = time_count_S3 + 1;
+                        next_in_menu_mode = in_menu_mode;
+                        next_state = S7;
+                    end
+                end
+            end
+			     
 				
 			S4: begin
 	    		display=5'b10000;
 	    		next_time_count_S3 = 0;
                 next_entered_S3=entered_S3;
 				next_in_menu_mode=0;
+                work_count_down = (wait_period_clean - time_count_clean) / divider;
                 if (!power) begin
                     next_state = S5;
+                    next_cleaned=0;
+                    next_count=0;
                 end else begin
                 	next_time_count_clean = time_count_clean + 1;
-                    if (finished) begin
-                        cleaned = on;
+                    if (time_count_clean > wait_period_clean) begin
+                        next_count=0;
                         next_state = S0;
                     end else begin
                         next_state = S4;
+                        next_count=count;
                     end
 				end
 			end
@@ -292,52 +344,54 @@ module state_machine(
 			    next_time_count_S3=0;
 			    next_in_menu_mode=0;
                 next_entered_S3=0;
+                next_cleaned=0;
+                next_count=0;
 			end
 	    endcase
 	end
     
-    //  ? ??   ?  
-    always @(posedge clk_de or negedge reset) begin
-        if (~reset) begin
-                count <= 0;
-                sec <= 0;
-                min <= 0;
-                hour <= 0;
-        end else if (power)begin
-            if(State == S1|State == S2|State == S3) begin
-                if(count == 100) begin
-                    count <= 0;
-                    if (sec == 59) begin
-                        sec <= 0;
-                        if (min == 59) begin
-                            min <= 0;
-                            if (hour == 23) begin
-                                hour <= 0;
-                            end else begin
-                                hour <= hour + 1;
-                            end
-                        end else begin
-                            min <= min + 1;
-                        end
-                    end else begin
-                        sec <= sec + 1;
-                    end
-                end else begin
-                    count <= count + 1;
-                end
-            end else if (cleaned|state_clean_manual)begin
-                    sec <= 0;
-                    min <= 0;
-                    hour <= 0;
-                    count <= 0;
-            end else begin
-                
-            end
-        end else begin
-            count <= 0;
-            sec <= 0;
-            min <= 0;
-            hour <= 0;
-        end
-    end
+//    //  ? ??   ?  
+//    always @(posedge clk_de or negedge reset) begin
+//        if (~reset) begin
+//                count <= 0;
+//                sec <= 0;
+//                min <= 0;
+//                hour <= 0;
+//        end else if (power)begin
+//            if(State == S1|State == S2|State == S3|State == S7) begin
+//                if(count == 100) begin
+//                    count <= 0;
+//                    if (sec == 59) begin
+//                        sec <= 0;
+//                        if (min == 59) begin
+//                            min <= 0;
+//                            if (hour == 23) begin
+//                                hour <= 0;
+//                            end else begin
+//                                hour <= hour + 1;
+//                            end
+//                        end else begin
+//                            min <= min + 1;
+//                        end
+//                    end else begin
+//                        sec <= sec + 1;
+//                    end
+//                end else begin
+//                    count <= count + 1;
+//                end
+//            end else if (cleaned|state_clean_manual)begin
+//                    sec <= 0;
+//                    min <= 0;
+//                    hour <= 0;
+//                    count <= 0;
+//            end else begin
+
+//            end
+//        end else begin
+//            count <= 0;
+//            sec <= 0;
+//            min <= 0;
+//            hour <= 0;
+//        end
+//    end
 endmodule

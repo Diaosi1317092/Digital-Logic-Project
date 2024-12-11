@@ -24,22 +24,23 @@ module lcd1602_display(
 input clk,
 input power,
 input state_03,
-input [2:0]state_machine,
+input [2:0] state_machine,
+input [5:0] work_count_down,
 output lcd_p,    //Backlight Source +
 output lcd_n,    //Backlight Source -
 output reg lcd_rs,    //0:write order; 1:write data   
 output lcd_rw,        //0:write data;  1:read data
 output reg lcd_en,    //negedge 
 output reg [7:0] lcd_data,
-output reg finished
+output reg finished,
+output [5:0]time_count_down
     );
     assign lcd_n = 1'b0;
     assign lcd_p = 1'b1;
     assign lcd_rw = 1'b0;   //only write
     reg [31:0] cnt1;
-    reg [7:0] time_count;
-    reg [7:0] time_limit;
-    wire [7:0] time_count_down;
+    reg [5:0] time_limit;
+    reg [5:0] time_count;
     wire [7:0] data0,data1,data2; //counter data
     wire [7:0] data_r0,data_r1,data_r2;
     wire [7:0] addr;   //write address
@@ -47,11 +48,11 @@ output reg finished
                  Cursor_Set  =  8'h0c,
                  Address_Set =  8'h06,
                  Clear_Set   =  8'h01,
-                 S3 = 3'b011,
+                 S3 = 3'b011,S7 = 3'b111,
                  S4 = 3'b100;
                  
    always@(state_machine) begin
-        if(state_machine == S3) begin //三档工作时长
+        if(state_machine == S3|state_machine == S7) begin //三档工作时长
             time_limit = 10;
         end else if(state_machine == S4) begin//自清洁工作时长
             time_limit = 30;
@@ -60,8 +61,7 @@ output reg finished
         end
     end
             
-                 
-   assign time_count_down = time_limit - time_count ;
+   assign time_count_down = work_count_down ;
    assign data_r0 = time_count_down % 10;     
    assign data_r1 = (time_count_down - data_r0) / 10 ;
    assign data_r2 = (time_count_down - data_r1*10 - data_r0) / 10 ;
@@ -70,7 +70,7 @@ output reg finished
    assign data2 = 8'h30 + data_r2;                  
                      
     always@(posedge clk) begin
-        if(power & (state_machine == S3|state_machine == S4)) begin
+        if(power & (state_machine == S3|state_machine == S4|state_machine == S7)) begin
           if(cnt1==100000000) begin
               if(time_count < time_limit) begin
                  time_count <= time_count + 1 ;

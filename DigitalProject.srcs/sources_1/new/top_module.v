@@ -60,14 +60,17 @@ module top_module (
     wire [5:0] sec;
     wire [5:0] min;
     wire [5:0] hour;
+    wire power_on;
     wire [17:0] current_time;//记录当下时间
     wire [17:0] work_time;//记录累计工作时间
     wire [17:0] limit_time=10;//记录设置后的最大工作时间
     wire [3:0] scan_key;     // 扫描到的按键
+    wire [5:0] count_sec; //开关机手势计时
+    wire [5:0] work_count_down;//S3和自清洁倒计时
     
     reg [3:0] select;
     reg [1:0] cycle_count;
-    reg power_on, power_flag_left, power_flag_right;          // 记录开机状态
+    reg power_flag_left, power_flag_right;          // 记录开机状态
     reg [31:0] power_timer;// 开关机计时器
     reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
     reg [3:0] scan_key_sync,scan_key_stable;
@@ -116,7 +119,7 @@ module top_module (
         .an(an)
     );
     
-    state_machine state_dut(
+    state_machine state_inst(
         .clk(clk_out),
         .clk_de(clk_out_de),        
         .reset(reset),
@@ -135,6 +138,7 @@ module top_module (
         .display_clean(display_clean),
         .cleaned(cleaned),
         .work_time(work_time),
+        .work_count_down(work_count_down),
         .State(State)
     );
     
@@ -146,8 +150,11 @@ module top_module (
     
     search_function search_function_inst(
         .search_in(search_in),
+        .State(State),
         .current_time(current_time),
         .work_time(work_time),
+        .count_sec(count_sec),
+        .work_count_down(work_count_down),
         .sec(sec),
         .min(min),
         .hour(hour)
@@ -168,6 +175,7 @@ module top_module (
         .power(power_on),
         .state_03(state_03),
         .state_machine(State),
+        .work_count_down(work_count_down),
         .lcd_p(lcd_p),    //Backlight Source +
         .lcd_n(lcd_n),    //Backlight Source -
         .lcd_rs(lcd_rs),    //0:write order; 1:write data   
@@ -177,76 +185,14 @@ module top_module (
         .finished(finished)
     );
     
-    always @(posedge clk) begin
-        power_button_sync <= power_button;      // 捕获按钮状态
-        power_button_stable <= power_button_sync;  // 稳定的按钮信号
-    end
-    
-   always @(posedge clk or posedge reset) begin
-        if (~reset) begin
-            power_flag_left <= 1'b0;
-            power_flag_right <= 1'b0;
-            power_on <= 1'b0;
-            power_timer <= 32'd0;
-        end else if (power_button_stable) begin  // 只有按钮稳定时才处理
-            if (power_on == 1'b0) begin
-                if (power_timer < 32'd100000000) begin // 等待 1 秒 
-                    power_timer <= power_timer + 1;
-                end else begin
-                    power_on <= 1'b1; // 持续 1 秒后开机
-                    power_timer <= 32'd0; // 重置计时器
-                end
-            end else begin
-                if (power_timer < 32'd300000000) begin // 等待 3 秒
-                    power_timer <= power_timer + 1;
-                end else begin
-                    power_on <= 1'b0; // 持续 3 秒后关机
-                    power_timer <= 32'd0; // 重置计时器
-                end
-            end
-        end else if (scan_key_stable == 4'b0011) begin
-            power_flag_left <= 1'b1;
-        end else if (scan_key_stable == 4'b1011) begin
-            power_flag_right <= 1'b1;
-        end else if (power_flag_left) begin
-            if (power_timer < 32'd500000000) begin // 等待 5 秒 
-                power_timer <= power_timer + 1;
-                if (power_flag_right) begin
-                    power_on <= ~power_on; // 持续 5 秒后关机
-                    power_timer <= 32'd0; // 重置计时器
-                    power_flag_left <= 1'b0;
-                    power_flag_right <= 1'b0;
-                end else begin
-                
-                end
-            end else begin
-                power_timer <= 32'd0; // 重置计时器
-                power_flag_left <= 1'b0;
-                power_flag_right <= 1'b0;
-            end
-        end else if (power_flag_right) begin
-            if (power_timer < 32'd500000000) begin // 等待 5 秒 
-                power_timer <= power_timer + 1;
-                if (power_flag_left) begin
-                    power_on <= ~power_on; // 持续 5 秒后开/关机
-                    power_timer <= 32'd0; // 重置计时器
-                    power_flag_left <= 1'b0;
-                    power_flag_right <= 1'b0;
-                end else begin
-                    
-                end
-            end else begin
-                power_timer <= 32'd0; // 重置计时器
-                power_flag_left <= 1'b0;
-                power_flag_right <= 1'b0;
-            end
-        end else if (scan_key_stable != 4'b1111 && scan_key_stable != 4'b0011 && scan_key_stable != 4'b1011) begin
-            power_flag_left <= 1'b0;
-            power_flag_right <= 1'b0;
-        end else begin
-            power_timer <= 32'd0;  // 没有按下时，计时器清零
-        end
-    end
+    power_set power_inst(
+        .clk(clk),
+        .rst(reset),
+        .power_button(power_button),
+        .scan_key_stable(scan_key_stable),
+        .power_on(power_on),
+        .count_sec(count_sec)
+    );
     
     always @(posedge clk or posedge reset) begin
         if (~reset) begin
@@ -275,8 +221,7 @@ module top_module (
         end else begin
             if (select == 4'd7) begin 
                 select <= 4'd0;
-            end
-            else begin
+            end else begin
                 select <= select + 1;
             end
         end
