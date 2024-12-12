@@ -26,12 +26,14 @@ module power_set(
     input [3:0] scan_key_stable,
     input in_mode,
     output reg power_on,
-    output reg [5:0] count_sec
+    output reg [5:0] count_sec,
+    output [5:0] time_limit_out
 );
-    reg [6:0] time_limit = 6'd5;
+    reg [5:0] time_limit = 6'd5;
     reg power_flag_left, power_flag_right;          // 记录开机状态
     reg [31:0] power_timer;// 开关机计时器
     reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
+    assign time_limit_out = time_limit;
 
     always @(posedge clk) begin
         power_button_sync <= power_button;      // 捕获按钮状态
@@ -68,7 +70,7 @@ module power_set(
         end else if (power_flag_left) begin
             if (power_timer < time_limit * 32'd100000000) begin // 等待 5 秒 
                 power_timer <= power_timer + 1;
-                count_sec <= time_limit - (power_timer / 32'd100000000);
+                count_sec <= time_limit - (power_timer / 32'd100000000) ;
                 if (power_flag_right) begin
                     power_on <= ~power_on; // 持续 5 秒后关机
                     power_timer <= 32'd0; // 重置计时器
@@ -87,7 +89,7 @@ module power_set(
         end else if (power_flag_right) begin
             if (power_timer < time_limit * 32'd100000000) begin // 等待 5 秒 
                 power_timer <= power_timer + 1;
-                count_sec <= time_limit - (power_timer / 32'd100000000);
+                count_sec <= time_limit - (power_timer / 32'd100000000) ;
                 if (power_flag_left) begin
                     power_on <= ~power_on; // 持续 5 秒后开/关机
                     power_timer <= 32'd0; // 重置计时器

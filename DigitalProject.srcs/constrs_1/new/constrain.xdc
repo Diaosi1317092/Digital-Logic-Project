@@ -112,9 +112,6 @@ set_property PACKAGE_PIN G16 [get_ports {lcd_data[7]}]
 set_property PACKAGE_PIN H16 [get_ports lcd_p]
 set_property PACKAGE_PIN C15 [get_ports lcd_n]
 
-set_property IOSTANDARD LVCMOS33 [get_ports finished]
-set_property PACKAGE_PIN K1 [get_ports finished]
-
 set_property IOSTANDARD LVCMOS33 [get_ports {column[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {column[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {column[2]}]
@@ -145,3 +142,5 @@ set_property PACKAGE_PIN G6 [get_ports {an[0]}]
 
 set_property IOSTANDARD LVCMOS33 [get_ports in_cpt_mode]
 set_property PACKAGE_PIN R1 [get_ports in_cpt_mode]
+set_property IOSTANDARD LVCMOS33 [get_ports in_cur_mode]
+set_property PACKAGE_PIN N4 [get_ports in_cur_mode]

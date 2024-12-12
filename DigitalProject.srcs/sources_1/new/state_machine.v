@@ -29,7 +29,6 @@ module state_machine(
     input state_03,
     input state_clean_auto,
     input state_clean_manual, 
-    input finished,
     output display_menu,
     output display_01,
     output display_02,
@@ -269,7 +268,7 @@ module state_machine(
 	    		next_time_count_clean = 0;
 	    		next_entered_S3 = 1;  
                 next_cleaned = 0;
-	    		work_count_down = (wait_period_S3 - time_count_S3) / divider;
+	    		work_count_down = (wait_period_S3 - time_count_S3) / divider + 1;
 	    		next_count=count+1;
 	    		if (!power) begin
                     next_state = S5;
@@ -299,7 +298,7 @@ module state_machine(
                 next_time_count_clean = 0;
                 next_entered_S3 = 1;  
                 next_cleaned = 0;
-                work_count_down = (wait_period_S3 - time_count_S3) / divider;
+                work_count_down = (wait_period_S3 - time_count_S3) / divider + 1;
                 next_count=count+1;
                 if (!power) begin
                     next_state = S5;
@@ -322,7 +321,7 @@ module state_machine(
 	    		next_time_count_S3 = 0;
                 next_entered_S3=entered_S3;
 				next_in_menu_mode=0;
-                work_count_down = (wait_period_clean - time_count_clean) / divider;
+                work_count_down = (wait_period_clean - time_count_clean) / divider + 1;
                 if (!power) begin
                     next_state = S5;
                     next_cleaned=0;

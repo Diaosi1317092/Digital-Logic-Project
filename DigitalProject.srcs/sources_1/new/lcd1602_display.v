@@ -32,15 +32,12 @@ output reg lcd_rs,    //0:write order; 1:write data
 output lcd_rw,        //0:write data;  1:read data
 output reg lcd_en,    //negedge 
 output reg [7:0] lcd_data,
-output reg finished,
-output [5:0]time_count_down
+output reg [5:0]time_count_down
     );
     assign lcd_n = 1'b0;
     assign lcd_p = 1'b1;
     assign lcd_rw = 1'b0;   //only write
     reg [31:0] cnt1;
-    reg [5:0] time_limit;
-    reg [5:0] time_count;
     wire [7:0] data0,data1,data2; //counter data
     wire [7:0] data_r0,data_r1,data_r2;
     wire [7:0] addr;   //write address
@@ -53,15 +50,14 @@ output [5:0]time_count_down
                  
    always@(state_machine) begin
         if(state_machine == S3|state_machine == S7) begin //三档工作时长
-            time_limit = 10;
+            time_count_down = work_count_down;
         end else if(state_machine == S4) begin//自清洁工作时长
-            time_limit = 30;
+            time_count_down = work_count_down;
         end else begin
-            time_limit = 0;
+            time_count_down = 0 ;
         end
     end
             
-   assign time_count_down = work_count_down ;
    assign data_r0 = time_count_down % 10;     
    assign data_r1 = (time_count_down - data_r0) / 10 ;
    assign data_r2 = (time_count_down - data_r1*10 - data_r0) / 10 ;
@@ -69,25 +65,6 @@ output [5:0]time_count_down
    assign data1 = 8'h30 + data_r1;
    assign data2 = 8'h30 + data_r2;                  
                      
-    always@(posedge clk) begin
-        if(power & (state_machine == S3|state_machine == S4|state_machine == S7)) begin
-          if(cnt1==100000000) begin
-              if(time_count < time_limit) begin
-                 time_count <= time_count + 1 ;
-              end else begin
-                 time_count <= time_count ;
-                 finished <= 1'b1;
-              end
-              cnt1 <= 1'b0;
-          end else begin
-              cnt1 <= cnt1 + 1;
-          end
-         end else begin
-            cnt1 <= 1'b0;
-            time_count <= 0;
-            finished <= 0;   
-        end
-    end
 //-------------------address------------------
 assign addr = 8'h80;
 /****************************LCD1602 Driver****************************/             

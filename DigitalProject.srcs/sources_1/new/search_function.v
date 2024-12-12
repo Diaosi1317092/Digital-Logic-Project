@@ -27,6 +27,7 @@ input [17:0] current_time,
 input [17:0] work_time,
 input [5:0] count_sec,
 input [5:0] work_count_down,
+input [5:0] time_limit_out,
 output [5:0] sec,
 output [5:0] min,
 output [5:0] hour
@@ -57,7 +58,7 @@ assign hour=output_time[17:12];
             output_time = work_time;
         end
         show_power_time: begin
-
+            output_time = time_limit_out;
         end
         default:
             output_time = current_time;

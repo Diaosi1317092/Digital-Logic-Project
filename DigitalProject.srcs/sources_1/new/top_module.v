@@ -33,6 +33,7 @@ module top_module (
     input [1:0] search_in,
     input [3:0] column,
     input in_cpt_mode,
+    input in_cur_mode,
     output light_out,
     output display_menu,
     output display_01,
@@ -50,7 +51,6 @@ module top_module (
     output lcd_rw,        //0:write data;  1:read data
     output lcd_en,    //negedge 
     output [7:0] lcd_data,
-    output finished,
     output [3:0] row_out     // 行输出信号
 );
 
@@ -68,7 +68,7 @@ module top_module (
     wire [3:0] scan_key;     // 扫描到的按键
     wire [5:0] count_sec;
     wire [5:0] work_count_down;//S3和自清洁倒计时
-//    wire [6:0] time_limit = 6'd5;
+    wire [5:0] time_limit_out;
     
     reg [3:0] select;
     reg [1:0] cycle_count;
@@ -105,9 +105,11 @@ module top_module (
     );
     
     timer timer_inst (
-        .clk(clk_out),
+        .clk(clk_out_de),
         .reset(reset & power_on),
-        .current_time(current_time)
+        .current_time(current_time),
+        .scan_key_stable(scan_key_stable),
+        .in_mode(in_cur_mode)
     );
 
     seven_segment_display display_inst (
@@ -132,7 +134,6 @@ module top_module (
         .state_clean_auto(state_clean_auto),
         .state_clean_manual(state_clean_manual),
         .menu(menu),
-        .finished(finished),
         .display_menu(display_menu),
         .display_01(display_01),
         .display_02(display_02),
@@ -157,6 +158,7 @@ module top_module (
         .work_time(work_time),
         .count_sec(count_sec),
         .work_count_down(work_count_down),
+        .time_limit_out(time_limit_out),
         .sec(sec),
         .min(min),
         .hour(hour)
@@ -183,8 +185,7 @@ module top_module (
         .lcd_rs(lcd_rs),    //0:write order; 1:write data   
         .lcd_rw(lcd_rw),        //0:write data;  1:read data
         .lcd_en(lcd_en),    //negedge 
-        .lcd_data(lcd_data),
-        .finished(finished)
+        .lcd_data(lcd_data)
     );
     
     power_set power_inst(
@@ -192,7 +193,7 @@ module top_module (
         .rst(reset),
         .power_button(power_button),
         .scan_key_stable(scan_key_stable),
-//        .time_limit(time_limit),
+        .time_limit_out(time_limit_out),
         .in_mode(in_cpt_mode),
         .power_on(power_on),
         .count_sec(count_sec)
