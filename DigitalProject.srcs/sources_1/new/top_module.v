@@ -177,6 +177,9 @@ module top_module (
     lcd1602_display lcd_inst(
         .clk(clk),
         .power(power_on),
+        .in_cpt_mode(in_cpt_mode),
+        .in_cur_mode(in_cur_mode),
+        .reminder(reminder),
         .state_03(state_03),
         .state_machine(State),
         .work_count_down(work_count_down),

@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="35" Path="D:/Verilog/DigitalProject/DigitalProject.xpr">
+<Project Version="7" Minor="35" Path="C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="d6d17929c1a4407fbf615beb084feef9"/>

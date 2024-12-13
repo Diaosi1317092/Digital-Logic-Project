@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc rfile:../../../DigitalProject.srcs/constrs_1/new/constrain.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/constrs_1/new/constrain.xdc rfile:../../../DigitalProject.srcs/constrs_1/new/constrain.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:8 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN P17 [get_ports clk]
 set_property src_info {type:XDC file:1 line:9 export:INPUT save:INPUT read:READ} [current_design]

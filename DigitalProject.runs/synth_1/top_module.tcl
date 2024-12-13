@@ -22,26 +22,26 @@ create_project -in_memory -part xc7a35tcsg324-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir D:/Verilog/DigitalProject/DigitalProject.cache/wt [current_project]
-set_property parent.project_path D:/Verilog/DigitalProject/DigitalProject.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.cache/wt [current_project]
+set_property parent.project_path C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo d:/Verilog/DigitalProject/DigitalProject.cache/ip [current_project]
+set_property ip_output_repo c:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider_debounce.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/clock_divider_enable.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/keyboard_driver.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lcd1602_display.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/lighting_function.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/power_set.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/search_function.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/seven_segment_display.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/smart_reminder.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/state_machine.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/timer.v
-  D:/Verilog/DigitalProject/DigitalProject.srcs/sources_1/new/top_module.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_debounce.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/clock_divider_enable.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/keyboard_driver.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/lcd1602_display.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/lighting_function.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/power_set.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/search_function.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/seven_segment_display.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/smart_reminder.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/state_machine.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/timer.v
+  C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/sources_1/new/top_module.v
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -51,8 +51,8 @@ read_verilog -library xil_defaultlib {
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc
-set_property used_in_implementation false [get_files D:/Verilog/DigitalProject/DigitalProject.srcs/constrs_1/new/constrain.xdc]
+read_xdc C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/constrs_1/new/constrain.xdc
+set_property used_in_implementation false [get_files C:/Users/48946/Documents/GitHub/Digital-Logic-Project/DigitalProject.srcs/constrs_1/new/constrain.xdc]
 
 
 synth_design -top top_module -part xc7a35tcsg324-1
