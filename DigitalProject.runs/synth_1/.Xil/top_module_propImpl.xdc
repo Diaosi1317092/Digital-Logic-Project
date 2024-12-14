@@ -133,3 +133,5 @@ set_property src_info {type:XDC file:1 line:144 export:INPUT save:INPUT read:REA
 set_property PACKAGE_PIN R1 [get_ports in_cpt_mode]
 set_property src_info {type:XDC file:1 line:146 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN N4 [get_ports in_cur_mode]
+set_property src_info {type:XDC file:1 line:149 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN T5 [get_ports in_rmd_mode]

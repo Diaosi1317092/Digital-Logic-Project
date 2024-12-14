@@ -34,13 +34,14 @@ module top_module (
     input [3:0] column,
     input in_cpt_mode,
     input in_cur_mode,
+    input in_rmd_mode,
     output light_out,
     output display_menu,
     output display_01,
     output display_02,
     output display_03,
     output display_clean,
-    output cleaned,//清洁完成提醒 可删可保留
+    output cleaned,//?????????? ????????
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [7:0] an,
@@ -51,7 +52,7 @@ module top_module (
     output lcd_rw,        //0:write data;  1:read data
     output lcd_en,    //negedge 
     output [7:0] lcd_data,
-    output [3:0] row_out     // 行输出信号
+    output [3:0] row_out     // ????????
 );
 
     wire clk_out;
@@ -62,19 +63,18 @@ module top_module (
     wire [5:0] min;
     wire [5:0] hour;
     wire power_on;
-    wire [17:0] current_time;//记录当下时间
-    wire [17:0] work_time;//记录累计工作时间
-    wire [17:0] limit_time=10;//记录设置后的最大工作时间
-    wire [3:0] scan_key;     // 扫描到的按键
+    wire [17:0] current_time;//??????????
+    wire [17:0] work_time;//????????????
+    wire [3:0] scan_key;     // ??赽?????
     wire [5:0] count_sec;
-    wire [5:0] work_count_down;//S3和自清洁倒计时
+    wire [5:0] work_count_down;//S3??????????
     wire [5:0] time_limit_out;
     
     reg [3:0] select;
     reg [1:0] cycle_count;
-    reg power_flag_left, power_flag_right;          // 记录开机状态
-    reg [31:0] power_timer;// 开关机计时器
-    reg power_button_sync, power_button_reg, power_button_stable; // 去抖动处理
+    reg power_flag_left, power_flag_right;          // ?????????
+    reg [31:0] power_timer;// ??????????
+    reg power_button_sync, power_button_reg, power_button_stable; // ?????????
     reg [3:0] scan_key_sync,scan_key_stable;
     reg [31:0] scan_key_cnt;
     
@@ -165,11 +165,13 @@ module top_module (
     );
     
     smart_reminder reminder_inst(
-        .clk(clk_out),
+        .clk(clk_out_de),
+        .rst(reset),
         .power(power_on),
         .cleaned(cleaned),
+        .in_mode(in_rmd_mode),
+        .scan_key_stable(scan_key_stable),
         .work_time(work_time),
-        .limit_time(limit_time),
         .State(State),
         .reminder(reminder)
     );
@@ -177,6 +179,9 @@ module top_module (
     lcd1602_display lcd_inst(
         .clk(clk),
         .power(power_on),
+        .in_cpt_mode(in_cpt_mode),
+        .in_cur_mode(in_cur_mode),
+        .reminder(reminder),
         .state_03(state_03),
         .state_machine(State),
         .work_count_down(work_count_down),

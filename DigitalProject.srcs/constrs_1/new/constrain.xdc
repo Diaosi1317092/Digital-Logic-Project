@@ -144,3 +144,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports in_cpt_mode]
 set_property PACKAGE_PIN R1 [get_ports in_cpt_mode]
 set_property IOSTANDARD LVCMOS33 [get_ports in_cur_mode]
 set_property PACKAGE_PIN N4 [get_ports in_cur_mode]
+
+set_property IOSTANDARD LVCMOS33 [get_ports in_rmd_mode]
+set_property PACKAGE_PIN T5 [get_ports in_rmd_mode]
