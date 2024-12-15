@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date         : Sun Dec 15 20:53:12 2024
+| Date         : Sun Dec 15 21:48:31 2024
 | Host         : ASCHENPUTTEL running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file top_module_control_sets_placed.rpt
 | Design       : top_module
@@ -22,8 +22,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    33 |
-| Unused register locations in slices containing registers |   117 |
+| Number of unique control sets                            |    35 |
+| Unused register locations in slices containing registers |   126 |
 +----------------------------------------------------------+-------+
 
 
@@ -33,11 +33,11 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             100 |           61 |
-| No           | No                    | Yes                    |             227 |          121 |
-| No           | Yes                   | No                     |              80 |           25 |
+| No           | No                    | No                     |             100 |           54 |
+| No           | No                    | Yes                    |             226 |          131 |
+| No           | Yes                   | No                     |              80 |           27 |
 | Yes          | No                    | No                     |              52 |           21 |
-| Yes          | No                    | Yes                    |             136 |           45 |
+| Yes          | No                    | Yes                    |             136 |           47 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -45,56 +45,59 @@ Table of Contents
 3. Detailed Control Set Information
 -----------------------------------
 
-+---------------------------------------------------+-------------------------------------------+----------------------------------+------------------+----------------+
-|                    Clock Signal                   |               Enable Signal               |         Set/Reset Signal         | Slice Load Count | Bel Load Count |
-+---------------------------------------------------+-------------------------------------------+----------------------------------+------------------+----------------+
-|  state_inst/next_cleaned_reg_i_2_n_0              |                                           |                                  |                1 |              1 |
-|  clk_IBUF_BUFG                                    | lcd_inst/lcd_en0_out                      |                                  |                1 |              1 |
-|  clk_en_inst/select_reg[0]                        |                                           | reminder_inst/lst_digit_reg[0]_0 |                2 |              4 |
-|  clk_IBUF_BUFG                                    | power_inst/time_limit                     | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/scan_key_stable_reg[0][0]    | reminder_inst/lst_digit_reg[0]_0 |                2 |              4 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/column_debounce              | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/row_int[3]_i_1_n_0           | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/row_stable                   | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/scan_key[3]_i_1_n_0          | reminder_inst/lst_digit_reg[0]_0 |                2 |              4 |
-|  clk_out_de_BUFG                                  | state_inst/state_03_counter[3]_i_1_n_0    | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_out_de_BUFG                                  | state_inst/state_02_counter[3]_i_1_n_0    | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_out_de_BUFG                                  | state_inst/state_clean_counter[3]_i_1_n_0 | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  clk_out_de_BUFG                                  | state_inst/state_01_counter[3]_i_1_n_0    | reminder_inst/lst_digit_reg[0]_0 |                1 |              4 |
-|  state_inst/work_count_down_reg[5]_i_2_n_0        |                                           |                                  |                2 |              6 |
-|  clk_IBUF_BUFG                                    | power_inst/count_sec[5]_i_1_n_0           | reminder_inst/lst_digit_reg[0]_0 |                2 |              6 |
-|  clk_IBUF_BUFG                                    |                                           |                                  |                5 |              6 |
-|  display_inst/seg1_reg[7]_i_2_n_0                 |                                           |                                  |                3 |              7 |
-|  display_inst/seg2_reg[7]_i_2_n_0                 |                                           |                                  |                4 |              7 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/row_debounce_cnt[7]_i_1_n_0  | reminder_inst/lst_digit_reg[0]_0 |                3 |              8 |
-|  clk_out_de_BUFG                                  | power_inst/now_digit_reg[3][0]            | power_inst/tmp_count_reg[31]     |                4 |              8 |
-|  clk_IBUF_BUFG                                    | lcd_inst/lcd_rs_i_1_n_0                   |                                  |                8 |              9 |
-|  clk_out_de_BUFG                                  | reset_IBUF                                | reminder_inst/lst_digit_reg[0]_0 |                6 |             10 |
-|  state_inst/next_time_count_S3_reg[15]_i_2_n_0    |                                           |                                  |                9 |             16 |
-|  state_inst/next_time_count_clean_reg[15]_i_2_n_0 |                                           |                                  |               10 |             16 |
-|  clk_IBUF_BUFG                                    |                                           | lcd_inst/cnt[31]_i_1_n_0         |                8 |             31 |
-|  clk_IBUF_BUFG                                    | power_inst/power_timer[31]_i_1_n_0        | reminder_inst/lst_digit_reg[0]_0 |               10 |             32 |
-|  clk_IBUF_BUFG                                    | key_dri_inst/scan_key_cnt_reg_0_sn_1      | reminder_inst/lst_digit_reg[0]_0 |                8 |             32 |
-|  clk_out_de_BUFG                                  |                                           |                                  |               27 |             41 |
-|  clk_IBUF_BUFG                                    | lcd_inst/lcd_clk_en_reg_n_0               |                                  |               12 |             42 |
-|  clk_out_de_BUFG                                  |                                           | state_clean_manual_IBUF          |               17 |             49 |
-|  clk_out_de_BUFG                                  |                                           | reminder_inst/lst_digit_reg[0]_0 |               46 |             59 |
-|  clk_IBUF_BUFG                                    |                                           | reminder_inst/lst_digit_reg[0]_0 |               21 |             75 |
-|  clk_out_de_BUFG                                  |                                           | power_inst/tmp_count_reg[31]     |               52 |             89 |
-+---------------------------------------------------+-------------------------------------------+----------------------------------+------------------+----------------+
++---------------------------------------------------+-------------------------------------------+------------------------------------------+------------------+----------------+
+|                    Clock Signal                   |               Enable Signal               |             Set/Reset Signal             | Slice Load Count | Bel Load Count |
++---------------------------------------------------+-------------------------------------------+------------------------------------------+------------------+----------------+
+|  state_inst/next_cleaned_reg_i_2_n_0              |                                           |                                          |                1 |              1 |
+|  clk_IBUF_BUFG                                    | lcd_inst/lcd_en0_out                      |                                          |                1 |              1 |
+|  clk_en_inst/clk_out                              |                                           | power_inst/count_sec_reg[0]_0            |                1 |              3 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/column_debounce              | key_dri_inst/debounce_cnt_reg[1]_0       |                2 |              4 |
+|  clk_out_de_BUFG                                  | state_inst/state_01_counter[3]_i_1_n_0    | reminder_inst/tmp_count_reg[31]_rep__1_0 |                1 |              4 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/row_stable_0                 | key_dri_inst/debounce_cnt_reg[1]_0       |                2 |              4 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/scan_key[3]_i_1_n_0          | key_dri_inst/debounce_cnt_reg[1]_0       |                2 |              4 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/E[0]                         | power_inst/count_sec_reg[0]_0            |                1 |              4 |
+|  clk_IBUF_BUFG                                    | power_inst/time_limit                     | power_inst/count_sec_reg[0]_0            |                1 |              4 |
+|  clk_out_de_BUFG                                  | state_inst/state_03_counter[3]_i_1_n_0    | reminder_inst/tmp_count_reg[31]_rep__1_0 |                1 |              4 |
+|  clk_out_de_BUFG                                  | state_inst/state_clean_counter[3]_i_1_n_0 | reminder_inst/tmp_count_reg[31]_rep__1_0 |                1 |              4 |
+|  clk_out_de_BUFG                                  | state_inst/state_02_counter[3]_i_1_n_0    | reminder_inst/tmp_count_reg[31]_rep__1_0 |                1 |              4 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/row_int[3]_i_1_n_0           | key_dri_inst/debounce_cnt_reg[1]_0       |                1 |              4 |
+|  state_inst/work_count_down_reg[5]_i_2_n_0        |                                           |                                          |                2 |              6 |
+|  clk_IBUF_BUFG                                    |                                           |                                          |                5 |              6 |
+|  clk_IBUF_BUFG                                    | power_inst/count_sec[5]_i_1_n_0           | power_inst/count_sec_reg[0]_0            |                2 |              6 |
+|  select[2]                                        |                                           |                                          |                3 |              7 |
+| ~select[2]                                        |                                           |                                          |                3 |              7 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/row_debounce_cnt[7]_i_1_n_0  | key_dri_inst/debounce_cnt_reg[1]_0       |                3 |              8 |
+|  clk_out_de_BUFG                                  | power_inst/E[0]                           | power_inst/now_digit_reg[0]              |                5 |              8 |
+|  clk_IBUF_BUFG                                    | lcd_inst/lcd_rs_i_1_n_0                   |                                          |                7 |              9 |
+|  clk_out_de_BUFG                                  | reset_IBUF                                | reminder_inst/tmp_count_reg[31]_rep__1_0 |                6 |             10 |
+|  state_inst/next_time_count_S3_reg[15]_i_2_n_0    |                                           |                                          |               10 |             16 |
+|  state_inst/next_time_count_clean_reg[15]_i_2_n_0 |                                           |                                          |                6 |             16 |
+|  clk_IBUF_BUFG                                    |                                           | key_dri_inst/debounce_cnt_reg[1]_0       |                6 |             20 |
+|  clk_IBUF_BUFG                                    |                                           | reminder_inst/tmp_count_reg[31]_rep__1_0 |               12 |             26 |
+|  clk_IBUF_BUFG                                    |                                           | power_inst/count_sec_reg[0]_0            |               12 |             29 |
+|  clk_IBUF_BUFG                                    |                                           | lcd_inst/cnt[31]_i_1_n_0                 |                8 |             31 |
+|  clk_IBUF_BUFG                                    | power_inst/power_timer[31]_i_1_n_0        | power_inst/count_sec_reg[0]_0            |               10 |             32 |
+|  clk_IBUF_BUFG                                    | key_dri_inst/scan_key_cnt_reg[31]_0       | key_dri_inst/debounce_cnt_reg[1]_0       |                8 |             32 |
+|  clk_out_de_BUFG                                  |                                           |                                          |               24 |             41 |
+|  clk_IBUF_BUFG                                    | lcd_inst/lcd_clk_en_reg_n_0               |                                          |               13 |             42 |
+|  clk_out_de_BUFG                                  |                                           | state_clean_manual_IBUF                  |               19 |             49 |
+|  clk_out_de_BUFG                                  |                                           | reminder_inst/tmp_count_reg[31]_rep__1_0 |               49 |             59 |
+|  clk_out_de_BUFG                                  |                                           | power_inst/now_digit_reg[0]              |               51 |             89 |
++---------------------------------------------------+-------------------------------------------+------------------------------------------+------------------+----------------+
 
 
 +--------+-----------------------+
 | Fanout | Number of ControlSets |
 +--------+-----------------------+
 | 1      |                     2 |
-| 4      |                    11 |
+| 3      |                     1 |
+| 4      |                    10 |
 | 6      |                     3 |
 | 7      |                     2 |
 | 8      |                     2 |
 | 9      |                     1 |
 | 10     |                     1 |
-| 16+    |                    11 |
+| 16+    |                    13 |
 +--------+-----------------------+
 
 
