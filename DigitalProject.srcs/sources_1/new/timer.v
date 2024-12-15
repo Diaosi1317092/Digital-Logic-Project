@@ -4,12 +4,13 @@ module timer (
     input reset,
     input in_mode,
     input [3:0] scan_key_stable,
-    output [17:0] current_time
+    output [17:0] current_time,
+    output reg [31:0] tmp_count
 );
     reg [5:0] sec;
     reg [5:0] min;
     reg [5:0] hour;
-    reg [31:0] count=0,next_count=0,tmp_count=0,next_tmp_count=0;
+    reg [31:0] count=0,next_count=0,next_tmp_count=0;
     reg [3:0] state,next_state;
     reg [3:0] lst_digit=15,now_digit=15;
     parameter A0 = 0,A1 = 1,A2 = 2,A3 = 3,A4 = 4,A5 = 5,A6 = 6,Ed=7;

@@ -29,14 +29,15 @@ module smart_reminder(
     input [17:0] work_time,
     input [3:0] scan_key_stable,
     input [2:0] State,
-    output reg reminder
+    output reg reminder,
+    output reg [31:0] tmp_count
 );
     parameter S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, S3 = 3'b011, S4 = 3'b100,S5= 3'b101,S6= 3'b110; //待机、一档、二档、三档、自清洁
     parameter on=1'b1,off=1'b0;
     
-    reg [17:0] limit_time = 10'd1000;
+    reg [17:0] limit_time =10;
     
-    reg [31:0] count=0,next_count=0,tmp_count=0,next_tmp_count=0;
+    reg [31:0] next_count=0,next_tmp_count=0;
     reg [3:0] state,next_state;
     reg [3:0] lst_digit=15,now_digit=15;
     parameter A0 = 0,A1 = 1,A2 = 2,A3 = 3,A4 = 4,A5 = 5,A6 = 6,Ed=7;
@@ -44,7 +45,7 @@ module smart_reminder(
     always @(posedge clk) begin
         if (power) begin
             if(State == S0|State == S6) begin
-                if(100 * work_time > limit_time & ~cleaned) begin
+                if(work_time > limit_time & ~cleaned) begin
                     reminder <= on;
                 end else begin
                     reminder <= off;
@@ -59,14 +60,12 @@ module smart_reminder(
     
     always @(posedge clk or posedge rst) begin// clk is clk_de
         if (~rst) begin
-            count <= 10'd1000;
-            limit_time <= 10'd1000;
+            limit_time <= 10;
             lst_digit<=15;
             now_digit<=15;
             state<=A0;
             tmp_count<=0;
         end else begin
-            count <= next_count;
             limit_time <= next_count;
             lst_digit=now_digit;// is = not <=
             state<=next_state;
@@ -280,7 +279,7 @@ module smart_reminder(
                 if (!in_mode) begin
                     next_state=A0;
                     next_tmp_count=0;
-                    next_count=tmp_count;
+                    next_count=tmp_count%100%60+tmp_count/100%100%60*64+tmp_count/10000%100%24*64*64;
                 end else begin 
                     if (now_digit==15) begin 
                         if (lst_digit==12) begin 

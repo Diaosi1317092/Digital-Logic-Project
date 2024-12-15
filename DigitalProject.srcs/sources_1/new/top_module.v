@@ -41,7 +41,6 @@ module top_module (
     output display_02,
     output display_03,
     output display_clean,
-    output cleaned,//?????????? ????????
     output [7:0] seg1,
     output [7:0] seg2,
     output wire [7:0] an,
@@ -55,26 +54,27 @@ module top_module (
     output [3:0] row_out     // ????????
 );
 
-    wire clk_out;
     wire clk_out_en;
     wire clk_out_de;    
-    wire [2:0] State;
+    wire [2:0] state;
     wire [5:0] sec;
     wire [5:0] min;
     wire [5:0] hour;
     wire power_on;
-    wire [17:0] current_time;//??????????
-    wire [17:0] work_time;//????????????
-    wire [3:0] scan_key;     // ??Úb?????
+    wire [17:0] current_time;
+    wire [17:0] work_time;
+    wire [3:0] scan_key;     
     wire [5:0] count_sec;
-    wire [5:0] work_count_down;//S3??????????
+    wire [5:0] work_count_down;
     wire [5:0] time_limit_out;
+    wire [31:0] tmp_count_cur;
+    wire [31:0] tmp_count_rmd;
     
     reg [3:0] select;
     reg [1:0] cycle_count;
-    reg power_flag_left, power_flag_right;          // ?????????
-    reg [31:0] power_timer;// ??????????
-    reg power_button_sync, power_button_reg, power_button_stable; // ?????????
+    reg power_flag_left, power_flag_right;
+    reg [31:0] power_timer;
+    reg power_button_sync, power_button_reg, power_button_stable; 
     reg [3:0] scan_key_sync,scan_key_stable;
     reg [31:0] scan_key_cnt;
     
@@ -84,12 +84,6 @@ module top_module (
         .column(column),
         .row_out(row_out),
         .scan_key(scan_key)
-    );
-
-    clock_divider clk_div_inst (
-        .clk(clk),
-        .reset(reset),
-        .clk_out(clk_out)
     );
     
     clock_divider_enable clk_en_inst (
@@ -109,7 +103,8 @@ module top_module (
         .reset(reset & power_on),
         .current_time(current_time),
         .scan_key_stable(scan_key_stable),
-        .in_mode(in_cur_mode)
+        .in_mode(in_cur_mode),
+        .tmp_count(tmp_count_cur)
     );
 
     seven_segment_display display_inst (
@@ -124,7 +119,6 @@ module top_module (
     );
     
     state_machine state_inst(
-        .clk(clk_out),
         .clk_de(clk_out_de),        
         .reset(reset),
         .power(power_on),
@@ -139,10 +133,9 @@ module top_module (
         .display_02(display_02),
         .display_03(display_03),
         .display_clean(display_clean),
-        .cleaned(cleaned),
         .work_time(work_time),
         .work_count_down(work_count_down),
-        .State(State)
+        .state(state)
     );
     
     lighting_function lighting_function_inst (
@@ -153,7 +146,7 @@ module top_module (
     
     search_function search_function_inst(
         .search_in(search_in),
-        .State(State),
+        .state(state),
         .current_time(current_time),
         .work_time(work_time),
         .count_sec(count_sec),
@@ -168,12 +161,12 @@ module top_module (
         .clk(clk_out_de),
         .rst(reset),
         .power(power_on),
-        .cleaned(cleaned),
         .in_mode(in_rmd_mode),
         .scan_key_stable(scan_key_stable),
         .work_time(work_time),
-        .State(State),
-        .reminder(reminder)
+        .state(state),
+        .reminder(reminder),
+        .tmp_count(tmp_count_rmd)
     );
     
     lcd1602_display lcd_inst(
@@ -181,10 +174,12 @@ module top_module (
         .power(power_on),
         .in_cpt_mode(in_cpt_mode),
         .in_cur_mode(in_cur_mode),
+        .in_rmd_mode(in_rmd_mode),
         .reminder(reminder),
-        .state_03(state_03),
-        .state_machine(State),
+        .state_machine(state),
         .work_count_down(work_count_down),
+        .tmp_count_cur(tmp_count_cur),
+        .tmp_count_rmd(tmp_count_rmd),
         .lcd_p(lcd_p),    //Backlight Source +
         .lcd_n(lcd_n),    //Backlight Source -
         .lcd_rs(lcd_rs),    //0:write order; 1:write data   
@@ -203,14 +198,6 @@ module top_module (
         .power_on(power_on),
         .count_sec(count_sec)
     );
-    
-//    change_power_time change_power_inst(
-//        .clk(clk),
-//        .rst(reset),
-//        .in_mode(in_cpt_mode),
-//        .scan_key_stable(scan_key_stable),
-//        .time_limit(time_limit)
-//    );
     
     always @(posedge clk or posedge reset) begin
         if (~reset) begin
