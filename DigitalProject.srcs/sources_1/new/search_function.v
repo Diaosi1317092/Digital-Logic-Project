@@ -22,7 +22,7 @@
 
 module search_function(
 input [1:0]search_in,
-input [2:0] State,
+input [2:0] state,
 input [17:0] current_time,
 input [17:0] work_time,
 input [5:0] count_sec,
@@ -48,7 +48,7 @@ assign hour=output_time[17:12];
         show_current_time: begin
             if(count_sec > 0) begin
                 output_time = {zero,zero,count_sec};//?????????
-            end else if(State == S3|State == S7|State == S4) begin
+            end else if(state == S3|state == S7|state == S4) begin
                 output_time = {zero,zero,work_count_down};
             end else begin 
                 output_time = current_time;

@@ -72,7 +72,7 @@ module power_set(
                 power_timer <= power_timer + 1;
                 count_sec <= time_limit - (power_timer / 32'd100000000) ;
                 if (power_flag_right) begin
-                    power_on <= ~power_on; // 持续 5 秒后关机
+                    power_on <= ~power_on; // 持续 5 秒后开机
                     power_timer <= 32'd0; // 重置计时器
                     count_sec <= 6'd0;
                     power_flag_left <= 1'b0;
@@ -91,7 +91,7 @@ module power_set(
                 power_timer <= power_timer + 1;
                 count_sec <= time_limit - (power_timer / 32'd100000000) ;
                 if (power_flag_left) begin
-                    power_on <= ~power_on; // 持续 5 秒后开/关机
+                    power_on <= ~power_on; // 持续 5 秒后关机
                     power_timer <= 32'd0; // 重置计时器
                     count_sec <= 6'd0;
                     power_flag_left <= 1'b0;

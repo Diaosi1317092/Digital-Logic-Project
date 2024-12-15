@@ -51,7 +51,8 @@ module top_module (
     output lcd_rw,        //0:write data;  1:read data
     output lcd_en,    //negedge 
     output [7:0] lcd_data,
-    output [3:0] row_out     // ????????
+    output [3:0] row_out,
+    output reg scan_input
 );
 
     wire clk_out_en;
@@ -63,7 +64,7 @@ module top_module (
     wire power_on;
     wire [17:0] current_time;
     wire [17:0] work_time;
-    wire [3:0] scan_key;     
+    wire [3:0] scan_key;
     wire [5:0] count_sec;
     wire [5:0] work_count_down;
     wire [5:0] time_limit_out;
@@ -75,7 +76,7 @@ module top_module (
     reg power_flag_left, power_flag_right;
     reg [31:0] power_timer;
     reg power_button_sync, power_button_reg, power_button_stable; 
-    reg [3:0] scan_key_sync,scan_key_stable;
+    reg [3:0] scan_key_sync, scan_key_stable;
     reg [31:0] scan_key_cnt;
     
     keyboard_driver key_dri_inst(
@@ -111,7 +112,6 @@ module top_module (
         .sec(sec),
         .min(min),
         .hour(hour),
-        .scan_key(scan_key_stable),
         .select(select),
         .seg1(seg1),
         .seg2(seg2),
@@ -164,7 +164,7 @@ module top_module (
         .in_mode(in_rmd_mode),
         .scan_key_stable(scan_key_stable),
         .work_time(work_time),
-        .state(state),
+        .state_machine(state),
         .reminder(reminder),
         .tmp_count(tmp_count_rmd)
     );
@@ -201,19 +201,22 @@ module top_module (
     
     always @(posedge clk or posedge reset) begin
         if (~reset) begin
+            scan_input <= 1'b0;
             scan_key_sync <= 4'b1111;
-            scan_key_stable <= 4'b1111;  
+            scan_key_stable <= 4'b1111;
             scan_key_cnt <= 0;
         end else begin
             if (scan_key == scan_key_sync) begin
                 if (scan_key_cnt < 25'd4999999) begin
                     scan_key_cnt <= scan_key_cnt + 1;
                 end else begin
-                    scan_key_stable <= scan_key;  
+                    scan_input <= 1'b1;
+                    scan_key_stable <= scan_key;
                 end
             end else begin
+                scan_input <= 1'b0;
                 scan_key_sync <= 4'b1111;
-                scan_key_stable <= 4'b1111;  
+                scan_key_stable <= 4'b1111;
                 scan_key_cnt <= 0;
             end
             scan_key_sync <= scan_key;  

@@ -1,6 +1,6 @@
 
  add_fsm_encoding \
-       {state_machine.State} \
+       {state_machine.state} \
        { }  \
        {{000 000} {001 101} {010 100} {011 010} {100 110} {101 111} {110 001} {111 011} }
 

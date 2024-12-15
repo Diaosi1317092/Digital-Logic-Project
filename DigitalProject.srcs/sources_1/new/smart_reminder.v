@@ -28,7 +28,7 @@ module smart_reminder(
     input in_mode,
     input [17:0] work_time,
     input [3:0] scan_key_stable,
-    input [2:0] State,
+    input [2:0] state_machine,
     output reg reminder,
     output reg [31:0] tmp_count
 );
@@ -44,7 +44,7 @@ module smart_reminder(
     
     always @(posedge clk) begin
         if (power) begin
-            if(State == S0|State == S6) begin
+            if(state_machine == S0|state_machine == S6) begin
                 if(work_time > limit_time & ~cleaned) begin
                     reminder <= on;
                 end else begin
