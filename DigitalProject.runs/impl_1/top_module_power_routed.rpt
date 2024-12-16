@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date             : Mon Dec 16 13:16:10 2024
+| Date             : Mon Dec 16 14:16:12 2024
 | Host             : Dupreeh running 64-bit major release  (build 9200)
 | Command          : report_power -file top_module_power_routed.rpt -pb top_module_power_summary_routed.pb -rpx top_module_power_routed.rpx
 | Design           : top_module
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+----------------------------------+
-| Total On-Chip Power (W)  | 71.385 (Junction temp exceeded!) |
+| Total On-Chip Power (W)  | 62.590 (Junction temp exceeded!) |
 | Design Power Budget (W)  | Unspecified*                     |
 | Power Budget Margin (W)  | NA                               |
-| Dynamic (W)              | 70.899                           |
+| Dynamic (W)              | 62.104                           |
 | Device Static (W)        | 0.486                            |
 | Effective TJA (C/W)      | 4.8                              |
 | Max Ambient (C)          | 0.0                              |
@@ -52,18 +52,18 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |    22.667 |    17428 |       --- |             --- |
-|   LUT as Logic |    20.674 |    11742 |     20800 |           56.45 |
-|   CARRY4       |     1.922 |     2226 |      8150 |           27.31 |
-|   Register     |     0.065 |      592 |     41600 |            1.42 |
+| Slice Logic    |    17.415 |    17532 |       --- |             --- |
+|   LUT as Logic |    15.919 |    11788 |     20800 |           56.67 |
+|   CARRY4       |     1.425 |     2234 |      8150 |           27.41 |
+|   Register     |     0.064 |      627 |     41600 |            1.51 |
 |   BUFG         |     0.006 |        2 |        32 |            6.25 |
-|   F7/F8 Muxes  |     0.001 |       75 |     32600 |            0.23 |
+|   F7/F8 Muxes  |    <0.001 |       75 |     32600 |            0.23 |
 |   Others       |     0.000 |       28 |       --- |             --- |
-| Signals        |    19.513 |    15044 |       --- |             --- |
+| Signals        |    16.167 |    15123 |       --- |             --- |
 | DSPs           |    <0.001 |       10 |        90 |           11.11 |
-| I/O            |    28.718 |       68 |       210 |           32.38 |
+| I/O            |    28.522 |       68 |       210 |           32.38 |
 | Static Power   |     0.486 |          |           |                 |
-| Total          |    71.385 |          |           |                 |
+| Total          |    62.590 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,9 +73,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |    42.590 |      42.250 |      0.341 |
-| Vccaux    |       1.800 |     1.103 |       1.050 |      0.053 |
-| Vcco33    |       3.300 |     8.110 |       8.109 |      0.001 |
+| Vccint    |       1.000 |    33.992 |      33.651 |      0.341 |
+| Vccaux    |       1.800 |     1.096 |       1.043 |      0.053 |
+| Vcco33    |       3.300 |     8.055 |       8.054 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -140,16 +140,16 @@ Table of Contents
 +-----------------+-----------+
 | Name            | Power (W) |
 +-----------------+-----------+
-| top_module      |    70.899 |
-|   clk_de_inst   |     0.384 |
-|   clk_en_inst   |     0.380 |
-|   display_inst  |     0.124 |
-|   key_dri_inst  |     0.333 |
-|   lcd_inst      |     0.195 |
-|   power_inst    |     0.658 |
-|   reminder_inst |     0.148 |
-|   state_inst    |     9.297 |
-|   timer_inst    |    21.243 |
+| top_module      |    62.104 |
+|   clk_de_inst   |     0.393 |
+|   clk_en_inst   |     0.416 |
+|   display_inst  |     0.132 |
+|   key_dri_inst  |     0.315 |
+|   lcd_inst      |     0.205 |
+|   power_inst    |     0.411 |
+|   reminder_inst |     0.144 |
+|   state_inst    |     0.867 |
+|   timer_inst    |    22.010 |
 +-----------------+-----------+
 
 

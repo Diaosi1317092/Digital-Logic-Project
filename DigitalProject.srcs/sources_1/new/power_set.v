@@ -30,89 +30,174 @@ module power_set(
     output [5:0] time_limit_out
 );
     reg [5:0] time_limit = 6'd5;
-    reg power_flag_left, power_flag_right;          // ¼ÇÂ¼¿ª»ú×´Ì¬
-    reg [31:0] power_timer;// ¿ª¹Ø»ú¼ÆÊ±Æ÷
-    reg power_button_sync, power_button_reg, power_button_stable; // È¥¶¶¶¯´¦Àí
+    //reg power_flag_left, power_flag_right;          // ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½×´Ì¬
+    reg [31:0] power_timer=0,count=0,next_count=0;// ï¿½ï¿½ï¿½Ø»ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+    reg power_button_sync, power_button_reg, power_button_stable; // È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    reg next_power_on=0,state=0,next_state=0;
+    reg [31:0] next_power_timer=0;
     assign time_limit_out = time_limit;
-
+    reg[1:0] now_lr=0,lst_lr=0;
     always @(posedge clk) begin
-        power_button_sync <= power_button;      // ²¶»ñ°´Å¥×´Ì¬
-        power_button_stable <= power_button_sync;  // ÎÈ¶¨µÄ°´Å¥ÐÅºÅ
+        power_button_sync <= power_button;      // ï¿½ï¿½ï¿½ï¿½Å¥×´Ì¬
+        power_button_stable <= power_button_sync;  // ï¿½È¶ï¿½ï¿½Ä°ï¿½Å¥ï¿½Åºï¿½
     end
     
     always @(posedge clk or posedge rst) begin
         if (~rst) begin
-            power_flag_left <= 1'b0;
-            power_flag_right <= 1'b0;
             power_on <= 1'b0;
             power_timer <= 32'd0;
             count_sec <= 6'd0;
-        end else if (power_button_stable) begin  // Ö»ÓÐ°´Å¥ÎÈ¶¨Ê±²Å´¦Àí
-            if (power_on == 1'b0) begin
-                if (power_timer < 32'd100000000) begin // µÈ´ý 1 Ãë 
-                    power_timer <= power_timer + 1;
-                end else begin
-                    power_on <= 1'b1; // ³ÖÐø 1 Ãëºó¿ª»ú
-                    power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                end
-            end else begin
-                if (power_timer < 32'd300000000) begin // µÈ´ý 3 Ãë
-                    power_timer <= power_timer + 1;
-                end else begin
-                    power_on <= 1'b0; // ³ÖÐø 3 Ãëºó¹Ø»ú
-                    power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                end
-            end
-        end else if (scan_key_stable == 4'b0011) begin
-            power_flag_left <= 1'b1;
-        end else if (scan_key_stable == 4'b1011) begin
-            power_flag_right <= 1'b1;
-        end else if (power_flag_left) begin
-            if (power_timer < time_limit * 32'd100000000) begin // µÈ´ý 5 Ãë 
-                power_timer <= power_timer + 1;
-                count_sec <= time_limit - (power_timer / 32'd100000000) ;
-                if (power_flag_right) begin
-                    power_on <= ~power_on; // ³ÖÐø 5 Ãëºó¿ª»ú
-                    power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                    count_sec <= 6'd0;
-                    power_flag_left <= 1'b0;
-                    power_flag_right <= 1'b0;
-                end else begin
-                
-                end
-            end else begin
-                power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                count_sec <= 6'd0;
-                power_flag_left <= 1'b0;
-                power_flag_right <= 1'b0;
-            end
-        end else if (power_flag_right) begin
-            if (power_timer < time_limit * 32'd100000000) begin // µÈ´ý 5 Ãë 
-                power_timer <= power_timer + 1;
-                count_sec <= time_limit - (power_timer / 32'd100000000) ;
-                if (power_flag_left) begin
-                    power_on <= ~power_on; // ³ÖÐø 5 Ãëºó¹Ø»ú
-                    power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                    count_sec <= 6'd0;
-                    power_flag_left <= 1'b0;
-                    power_flag_right <= 1'b0;
-                end else begin
-                    
-                end
-            end else begin
-                power_timer <= 32'd0; // ÖØÖÃ¼ÆÊ±Æ÷
-                count_sec <= 6'd0;
-                power_flag_left <= 1'b0;
-                power_flag_right <= 1'b0;
-            end
-        end else if (scan_key_stable != 4'b1111 && scan_key_stable != 4'b0011 && scan_key_stable != 4'b1011) begin
-            power_flag_left <= 1'b0;
-            power_flag_right <= 1'b0;
-        end else begin
-            power_timer <= 32'd0;  // Ã»ÓÐ°´ÏÂÊ±£¬¼ÆÊ±Æ÷ÇåÁã
-            count_sec <= 6'd0;
+            count <= 0;
+            state <= 0;
+        end else begin 
+            power_on <= next_power_on;
+            power_timer <= next_power_timer;
+            count <= next_count;
+            state <= next_state;
+            if (next_power_timer==0) count_sec=0;
+            else count_sec <= time_limit - (next_power_timer / 32'd100000000) ;
+            lst_lr=now_lr;
+            if (scan_key_stable==4'b1011) now_lr=2;
+            else if (scan_key_stable==4'b0011) now_lr=1;
+            else now_lr=0;
         end
     end
+    always @(*) begin
+        if (power_button_stable) begin 
+            next_power_timer=0;
+            next_state=0;
+            if (power_on&&count>32'd300000000) begin
+                next_power_on=0;
+                next_count=count+1;
+            end else if (!power_on&&count<32'd100000000&&count>32'd10000000) begin 
+                next_power_on=1;
+                next_count=count+1;
+            end else begin
+                next_power_on=power_on;
+                next_count=count+1;
+            end
+        end else begin 
+            next_count=0;
+            if (power_on) begin 
+                if (state==0) begin
+                    if (now_lr==0&&lst_lr==2) next_state=1;//right
+                    else next_state=state;
+                    next_power_on=power_on;
+                    next_power_timer=0;
+                end else begin 
+                    next_power_timer=power_timer+1;
+                    if (power_timer> time_limit * 32'd100000000) begin 
+                        next_power_timer=0;
+                        next_state=0;
+                        next_power_on=power_on;
+                    end else if (now_lr==0&&lst_lr==1) begin //left
+                        next_power_on=~power_on;
+                        next_power_timer=0;
+                        next_state=0;
+                    end else begin
+                        next_power_on=power_on;
+                        next_power_timer=power_timer+1;
+                        next_state=state;
+                    end
+                end
+            end else begin 
+                if (state==0) begin
+                    if (now_lr==0&&lst_lr==1) next_state=1;//left
+                    else next_state=state;
+                    next_power_on=power_on;
+                    next_power_timer=0;
+                end else begin 
+                    next_power_timer=power_timer+1;
+                    if (power_timer> time_limit * 32'd100000000) begin 
+                        next_power_timer=0;
+                        next_state=0;
+                        next_power_on=power_on;
+                    end else if (now_lr==0&&lst_lr==2) begin //right
+                        next_power_on=~power_on;
+                        next_power_timer=0;
+                        next_state=0;
+                    end else begin
+                        next_power_on=power_on;
+                        next_power_timer=power_timer+1;
+                        next_state=state;
+                    end
+                end
+            end
+        end
+    end
+    // always @(posedge clk or posedge rst) begin
+    //     if (~rst) begin
+    //         power_flag_left <= 1'b0;
+    //         power_flag_right <= 1'b0;
+    //         power_on <= 1'b0;
+    //         power_timer <= 32'd0;
+    //         count_sec <= 6'd0;
+    //     end else if (power_button_stable) begin  // Ö»ï¿½Ð°ï¿½Å¥ï¿½È¶ï¿½Ê±ï¿½Å´ï¿½ï¿½ï¿½
+    //         if (power_on == 1'b0) begin
+    //             if (power_timer < 32'd100000000) begin // ï¿½È´ï¿½ 1 ï¿½ï¿½ 
+    //                 power_timer <= power_timer + 1;
+    //             end else begin
+    //                 power_on <= 1'b1; // ï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ó¿ª»ï¿½?
+    //                 power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //             end
+    //         end else begin
+    //             if (power_timer < 32'd300000000) begin // ï¿½È´ï¿½ 3 ï¿½ï¿½
+    //                 power_timer <= power_timer + 1;
+    //             end else begin
+    //                 power_on <= 1'b0; // ï¿½ï¿½ï¿½ï¿½ 3 ï¿½ï¿½ï¿½Ø»ï¿½
+    //                 power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //             end
+    //         end
+    //     end else if (scan_key_stable == 4'b0011) begin
+    //         power_flag_left <= 1'b1;
+    //     end else if (scan_key_stable == 4'b1011) begin
+    //         power_flag_right <= 1'b1;
+    //     end else if (power_flag_left) begin
+    //         if (power_timer < time_limit * 32'd100000000) begin // ï¿½È´ï¿½ 5 ï¿½ï¿½ 
+    //             power_timer <= power_timer + 1;
+    //             count_sec <= time_limit - (power_timer / 32'd100000000) ;
+    //             if (power_flag_right) begin
+    //                 power_on <= ~power_on; // ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½ó¿ª»ï¿½?
+    //                 power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //                 count_sec <= 6'd0;
+    //                 power_flag_left <= 1'b0;
+    //                 power_flag_right <= 1'b0;
+    //             end else begin
+                
+    //             end
+    //         end else begin
+    //             power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //             count_sec <= 6'd0;
+    //             power_flag_left <= 1'b0;
+    //             power_flag_right <= 1'b0;
+    //         end
+    //     end else if (power_flag_right) begin
+    //         if (power_timer < time_limit * 32'd100000000) begin // ï¿½È´ï¿½ 5 ï¿½ï¿½ 
+    //             power_timer <= power_timer + 1;
+    //             count_sec <= time_limit - (power_timer / 32'd100000000) ;
+    //             if (power_flag_left) begin
+    //                 power_on <= ~power_on; // ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½ï¿½Ø»ï¿½
+    //                 power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //                 count_sec <= 6'd0;
+    //                 power_flag_left <= 1'b0;
+    //                 power_flag_right <= 1'b0;
+    //             end else begin
+                    
+    //             end
+    //         end else begin
+    //             power_timer <= 32'd0; // ï¿½ï¿½ï¿½Ã¼ï¿½Ê±ï¿½ï¿½
+    //             count_sec <= 6'd0;
+    //             power_flag_left <= 1'b0;
+    //             power_flag_right <= 1'b0;
+    //         end
+    //     end else if (scan_key_stable != 4'b1111 && scan_key_stable != 4'b0011 && scan_key_stable != 4'b1011) begin
+    //         power_flag_left <= 1'b0;
+    //         power_flag_right <= 1'b0;
+    //     end else begin
+    //         power_timer <= 32'd0;  // Ã»ï¿½Ð°ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //         count_sec <= 6'd0;
+    //     end
+    // end
     
     always @(posedge clk or posedge rst) begin
         if(~rst) begin
