@@ -146,15 +146,6 @@ set_property PACKAGE_PIN N4 [get_ports in_cur_mode]
 set_property IOSTANDARD LVCMOS33 [get_ports in_rmd_mode]
 set_property PACKAGE_PIN T5 [get_ports in_rmd_mode]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {scan_key_stable[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {scan_key_stable[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {scan_key_stable[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {scan_key_stable[0]}]
-set_property PACKAGE_PIN K3 [get_ports {scan_key_stable[0]}]
-set_property PACKAGE_PIN M1 [get_ports {scan_key_stable[1]}]
-set_property PACKAGE_PIN L1 [get_ports {scan_key_stable[2]}]
-set_property PACKAGE_PIN N6 [get_ports {scan_key_stable[3]}]
-
 set_property IOSTANDARD LVCMOS33 [get_ports key_input]
 set_property PACKAGE_PIN K3 [get_ports key_input]
 
